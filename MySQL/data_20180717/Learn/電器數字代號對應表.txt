@@ -1,0 +1,17 @@
+1,CFLNewTenWatt_appliances
+2,CFLOneYearTenWatt_appliances
+3,CFLTwoYearTenWatt_appliances
+4,CFLBadTenWatt_appliances
+5,CFLNewTwentyWatt_appliances
+6,CFLOneyearTwentyWatt_appliances
+7,CFLFourYearBadFlashTwentyWatt_appliances
+8,CFLFiveYearBadNotShiningTwentyWatt_appliances
+9,JeinPoLiEnergySavingLampsNew
+10,JeinPoLiEnergySavingLampsOldOneYear
+JeinPoLiEnergySavingLampsBad#應該不會用到
+11,T5TwentyEightWattNewOne
+12,T5TwentyEightWattOneYearOne
+13,NotLoad
+14,T5TwentyEightWattBad
+15,T5TwentyEightWattFourYear
+16.T5TwentyEightWattThreeYear

@@ -1,0 +1,19 @@
+"app_id","appliances","app_table_id","v","i","p","pt","pf","cm","re"
+"7","amplifier","a",NULL,NULL,NULL,NULL,NULL,"???",NULL
+"9","steamcooker","s",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"10","bigbulb","b","110.000000","2.030000","210.000000",NULL,NULL,NULL,NULL
+"11","smallbulb","sb","110.000000","0.820000","82.000000",NULL,NULL,NULL,NULL
+"12","fan","fw","110.000000","0.200000","13.000000",NULL,"13.000000",NULL,"weak option"
+"13","fan","fs","110.000000","0.280000","17.500000",NULL,"0.770000",NULL,"Strong option"
+"14","hair dryer","hs","110.000000","8.400000","880.000000",NULL,"0.000000",NULL,"Strong option"
+"15","hair dryer","hw","110.000000","4.470000","400.000000",NULL,"0.000000",NULL,"Weak option"
+"16","hair dryer","hs","110.000000","8.400000","880.000000",NULL,"0.000000",NULL,"Strong option"
+"17","computer","cm",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"18","notobook","nb",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"19","projector","pr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"20","bigfan","bfs",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"21","mediumfan","mfs",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"22","medium fan","mfm",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"23","1000W steamcooker","bsc",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"24","combinations,fan strong,100W bulb,hair dryer weak","cfssbhw","110.000000","6.000000","622.000000",NULL,NULL,NULL,NULL
+"25","apple phone","ap",NULL,NULL,NULL,NULL,NULL,NULL,NULL

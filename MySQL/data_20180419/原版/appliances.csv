@@ -1,0 +1,37 @@
+"app_id","appliances","app_table_id","v","i","p","pt","pf","cm","re"
+"7","amplifier","a","110.000000","3.090909","340.000000",NULL,NULL,"amplifier",NULL
+"9","steamcooker","s",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"10","bigbulb","b","110.000000","2.030000","210.000000",NULL,NULL,NULL,NULL
+"11","smallbulb","sb","110.000000","0.820000","82.000000",NULL,NULL,NULL,NULL
+"12","fan","fw","110.000000","0.200000","13.000000",NULL,"13.000000",NULL,"weak option"
+"13","fan","fs","110.000000","0.280000","17.500000",NULL,"0.770000",NULL,"Strong option"
+"14","hair dryer","hs","110.000000","8.400000","880.000000",NULL,"0.000000",NULL,"Strong option"
+"15","hair dryer","hw","110.000000","4.470000","400.000000",NULL,"0.000000",NULL,"Weak option"
+"17","computer","cm",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"18","notobook","nb",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"19","projector","pr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"20","bigfan","bfs",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"21","mediumfan","mfs",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"22","medium fan","mfm",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"23","1000W steamcooker","bsc","110.000000","9.090909","1000.000000",NULL,NULL,NULL,NULL
+"24","combinations,fan strong,100W bulb,hair dryer weak","cfssbhw","110.000000","6.000000","622.000000",NULL,NULL,NULL,NULL
+"25","apple phone","ap",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"26","combinations fan strong,100W bulb,hair dryer weak","cfssbhw",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"27","combinations fan strong,100W bulb","cfssb",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"28","combinations fan strong,hair dryer weak","cfshw",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"29","combinations 100W bulb,hair dryer weak","csbhw",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"30","combinations fan strong,100W bulb,hair dryer weak ","cfssbhwisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"31","combinations fan strong,100W bulb,hair dryer weak ","cfssbhwiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"32","combinations fan strong,100W bulb weak in series 4","cfssbisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"33","combinations fan strong,100W bulb in parallel thre","cfssbiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"34","combinations fan strong,hair dryer weak in series ","cfshwisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"35","combinations fan strong,hair dryer weak in paralle","cfshwiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"36","combinations 100W bulb,hair dryer weak in series 4","csbhwisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"37","combinations 100W bulb,hair dryer weak in parallel","csbhwiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"38","combinations fan strong in series 400W 10Ohm resis","cfsisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"39","combinations fan strong in parallel three 400W 10O","cfsiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"40","combinations 100W bulb in series 400W 10Ohm resist","csbisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"41","combinations 100W bulb in parallel three 400W 10Oh","csbiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"42","combinations hair dryer weak in series 400W 10Ohm ","chwisr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"43","combinations hair dryer weak in parallel three 400","chwiptr",NULL,NULL,NULL,NULL,NULL,NULL,NULL
+"44","apple phone","ap",NULL,NULL,NULL,NULL,NULL,NULL,NULL
