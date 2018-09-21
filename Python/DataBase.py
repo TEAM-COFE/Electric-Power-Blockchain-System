@@ -8,6 +8,10 @@
 from Tkinter import *
 import MySQLdb
 
+def ConnectMySQLServer(Host, User, Passwd, DataBase, Charset):
+    db = MySQLdb.connect(Host, User, Passwd, DataBase, Charset)
+    return db
+
 def CheckTable(Checktablename,db):#檢查指定資料表是否存在
     print Checktablename
     select = "select * from " + Checktablename + ";"
