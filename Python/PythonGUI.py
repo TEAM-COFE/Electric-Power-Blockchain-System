@@ -138,11 +138,49 @@ class AAA:
         print "run"
         Stop = 0
         while Stop < 1:
-            """
             BootPowerRCR = "\x01\x05\x00\x00\xFF\x00\x8C\x3A"
             REPRCR = "\x01\x03\x00\x48\x00\x06\x45\xDE"
             ShutdownPowerRCR = "\x01\x05\x00\x00\x00\x00\xCD\xCA"
-            """
+
+            db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+            PowerSocket.BootPower(BootPowerRCR, 9600)
+            time.sleep(0.5)
+            date, V, I, P, PT, PF = PowerSocket.REP(REPRCR, 9600)
+            if I <= 0:#更新"狀態"資料表"負載"欄位
+                noload = 0
+            else:
+                noload = 1
+            DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
+            if I >= 9:
+                db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
+                DataBase.Status(db, "status", self.crcname.get(), 0, 1, 1, 0)
+                Stop = 2
+            else:
+                apptableid = "auto"
+                print apptableid
+                Select = "select * from " + apptableid + ";"
+                Command = "INSERT INTO " + apptableid +"(id, date, v_val, i_val, p_val, pt_val, pf_val) VALUES(NULL, '%s', '%f', '%f', '%f', '%f', '%f')"%(date, V, I, P, PT, PF)
+                try:
+                    db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                    DataBase.Connect(db, Select)
+                    print "The Table Is Exist"
+                except:
+                    win = Tk()
+                    win.title("連線失敗")
+                    create = "是否要建立" + apptableid + "表格?"
+                    message = Label(win,text = create)
+                    message.grid(row = 1, column = 1, rowspan = 3, columnspan = 2)
+                    yes = Button(win, text = "Yes", command = self.YesCreateAutoTableButton)
+                    yes.grid(row = 2, column = 1)
+                    no = Button(win, text = "No", command = self.noButton)
+                    no.grid(row = 2, column = 2)
+                    win.mainloop()
+                else:
+                    db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                    DataBase.Connect(db, Command)
+                    time.sleep(0.5)
+
             BootPowerRCR = "\x02\x05\x00\x00\xFF\x00\x8C\x09"
             REPRCR = "\x02\x03\x00\x48\x00\x06\x45\xED"
             ShutdownPowerRCR = "\x02\x05\x00\x00\x00\x00\xCD\xF9"
@@ -185,6 +223,7 @@ class AAA:
                     db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
                     DataBase.Connect(db, Command)
                     time.sleep(0.5)
+
     def YesAllButton(self):
         tableauto = "auto"
         tableMachineLearning = "MachineLearning"
@@ -202,9 +241,10 @@ class AAA:
     def Boot(self):
         db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
         DataBase.Status(db, "status", self.crcname.get(), 1, 2, 2, 2)
-        #BootPowerRCR = "\x01\x05\x00\x00\xFF\x00\x8C\x3A"
+        BootPowerRCR = "\x01\x05\x00\x00\xFF\x00\x8C\x3A"
         #REPRCR = "\x01\x03\x00\x48\x00\x06\x45\xDE"
         #ShutdownPowerRCR = "\x01\x05\x00\x00\x00\x00\xCD\xCA"
+        PowerSocket.BootPower(BootPowerRCR, 9600)
         BootPowerRCR = "\x02\x05\x00\x00\xFF\x00\x8C\x09"
         #REPRCR = "\x02\x03\x00\x48\x00\x06\x45\xED"
         #ShutdownPowerRCR = "\x02\x05\x00\x00\x00\x00\xCD\xF9"
@@ -215,7 +255,8 @@ class AAA:
         DataBase.Status(db, "status", self.crcname.get(), 0, 2, 2, 2)
         #BootPowerRCR = "\x01\x05\x00\x00\xFF\x00\x8C\x3A"
         #REPRCR = "\x01\x03\x00\x48\x00\x06\x45\xDE"
-        #ShutdownPowerRCR = "\x01\x05\x00\x00\x00\x00\xCD\xCA"
+        ShutdownPowerRCR = "\x01\x05\x00\x00\x00\x00\xCD\xCA"
+        PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
         #BootPowerRCR = "\x02\x05\x00\x00\xFF\x00\x8C\x09"
         #REPRCR = "\x02\x03\x00\x48\x00\x06\x45\xED"
         ShutdownPowerRCR = "\x02\x05\x00\x00\x00\x00\xCD\xF9"
