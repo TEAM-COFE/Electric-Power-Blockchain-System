@@ -187,9 +187,52 @@ class AAA:
         CreateTable = "create table " + apptableid +"(id int(20) auto_increment, app_id int(11), v_val float(255,6), i_val float(255,6), p_val float(255,6), pt_val float(255,6), pf_val float(255,6), date int(20), primary key (id) );"
         DataBase.Connect(db, CreateTable)
 
+    def ReadPower(self, BootPowerRCR, REPRCR, ShutdownPowerRCR):
+        print "run"
+        Stop = 0
+        while Stop < 1:
+            db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+            PowerSocket.BootPower(BootPowerRCR, 9600)
+            time.sleep(0.5)
+            date, V, I, P, PT, PF = PowerSocket.REP(REPRCR, 9600)
+            if I <= 0:#更新"狀態"資料表"負載"欄位
+                noload = 0
+            else:
+                noload = 1
+                DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
+            if I >= 9:
+                db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
+                DataBase.Status(db, "status", self.crcname.get(), 0, 1, 1, 0)
+                Stop = 2
+            else:
+                apptableid = "auto"
+                print apptableid
+                Select = "select * from " + apptableid + ";"
+                Command = "INSERT INTO " + apptableid +"(id, date, v_val, i_val, p_val, pt_val, pf_val) VALUES(NULL, '%s', '%f', '%f', '%f', '%f', '%f')"%(date, V, I, P, PT, PF)
+                try:
+                    db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                    DataBase.Connect(db, Select)
+                    print "The Table Is Exist"
+                except:
+                    win = Tk()
+                    win.title("連線失敗")
+                    create = "是否要建立" + apptableid + "表格?"
+                    message = Label(win,text = create)
+                    message.grid(row = 1, column = 1, rowspan = 3, columnspan = 2)
+                    yes = Button(win, text = "Yes", command = self.YesCreateAutoTableButton)
+                    yes.grid(row = 2, column = 1)
+                    no = Button(win, text = "No", command = self.noButton)
+                    no.grid(row = 2, column = 2)
+                    win.mainloop()
+                else:
+                    db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                    DataBase.Connect(db, Command)
+                    time.sleep(0.5)
+
 
 AAA()
-
+"""
 def ReadPower(BootPowerRCR, REPRCR, ShutdownPowerRCR):
     print "run"
     Stop = 0
@@ -202,7 +245,7 @@ def ReadPower(BootPowerRCR, REPRCR, ShutdownPowerRCR):
             noload = 0
         else:
             noload = 1
-        DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
+            DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
         if I >= 9:
             db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
             PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
@@ -232,3 +275,4 @@ def ReadPower(BootPowerRCR, REPRCR, ShutdownPowerRCR):
                 db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
                 DataBase.Connect(db, Command)
                 time.sleep(0.5)
+"""
