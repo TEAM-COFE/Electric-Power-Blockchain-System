@@ -70,7 +70,7 @@ def UpdataStatusAppliances(db, Table, socket_code, Appliances):#更新"Status"�
     return 1
 
 def CreateTable(CreateTableAuto, CreateTableMachineLearning, CreateTbaleStatus, db):#創建新的資料表
-    CreateTableAuto = "create table " + CreateTableAuto +"(id int(20) auto_increment, app_table_id int(11), v_val float(255,6), i_val float(255,6), p_val float(255,6), pt_val float(255,6), pf_val float(255,6), date int(20), primary key (id) );"
+    CreateTableAuto = "create table " + CreateTableAuto +"(id int(20) auto_increment, app_table_id int(11), socket_code varchar(3), v_val float(255,6), i_val float(255,6), p_val float(255,6), pt_val float(255,6), pf_val float(255,6), date int(20), primary key (id) );"
     CreateTableMachineLearning = "create table " + CreateTableMachineLearning +"(id int(20) auto_increment, app_table_id int(11), v_val float(255,6), i_val float(255,6), p_val float(255,6), pt_val float(255,6), pf_val float(255,6), date int(20), primary key (id) );"
     CreateTbaleStatus = "create table " + CreateTbaleStatus +"(socket_code int(20) auto_increment, appliance int(1), status int(1), overload int(1), noload int(1), ageing int(1), primary key (socket_code) );"
     cursor = db.cursor()
