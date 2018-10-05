@@ -2,14 +2,7 @@
 # -*- coding: utf-8 -*-
 # coding = UTF-8
 """
-20180112找到的範例，雖然有更改，但沒有完成與成功
-20180128成功顯示是否連到資料庫與表格，並可以成功整齊的排在一起
-20180129加入了可以讀取電力模組的程式碼
-20180305修正否的連線錯誤，並加上如果沒有讀取電力插座會存入零
-20180701將程式碼模組化，以達到程式碼精簡化
-201807021253成功模組化PowerSocket.py
-201807021757成功模組化DataBase.py，並使用許多的函式，讓程式碼可以精簡。解決讀取錯誤的狀況，將開機指令與讀取另的時間格0.5秒。重新設定變數名稱，讓變數名稱有一定的可讀性。未來會再精簡程式碼並加入可以中止讀取的函式。
-21080704在負載過載後可以將電源關閉後將過載資料存入資料庫，並在網頁上呈現過載。
+
 """
 import serial
 import time
@@ -135,13 +128,24 @@ class AAA:
         win.mainloop()
 
     def runButton(self):
-        BootPowerRCR = "\x01\x05\x00\x00\xFF\x00\x8C\x3A"
-        REPRCR = "\x01\x03\x00\x48\x00\x06\x45\xDE"
-        ShutdownPowerRCR = "\x01\x05\x00\x00\x00\x00\xCD\xCA"
-        ReadPower(BootPowerRCR, REPRCR, ShutdownPowerRCR)
-        BootPowerRCR = "\x02\x05\x00\x00\xFF\x00\x8C\x09"
-        REPRCR = "\x02\x03\x00\x48\x00\x06\x45\xED"
-        ShutdownPowerRCR = "\x02\x05\x00\x00\x00\x00\xCD\xF9"
+        while(1):
+            CRCName = self.crcname.get()
+            SocketCodeList = CRCName.split(',')
+            for SocketCode in SocketCodeList:
+                SocketCode = '%s' % SocketCode
+                if SocketCode == "x01":
+                    Stop = 0
+                    BootPowerRCR = "\x01\x05\x00\x00\xFF\x00\x8C\x3A"
+                    REPRCR = "\x01\x03\x00\x48\x00\x06\x45\xDE"
+                    ShutdownPowerRCR = "\x01\x05\x00\x00\x00\x00\xCD\xCA"
+                if SocketCode == "x02":
+                    Stop = 0
+                    BootPowerRCR = "\x02\x05\x00\x00\xFF\x00\x8C\x09"
+                    REPRCR = "\x02\x03\x00\x48\x00\x06\x45\xED"
+                    ShutdownPowerRCR = "\x02\x05\x00\x00\x00\x00\xCD\xF9"
+                self.ReadPower(Stop, SocketCode, BootPowerRCR, REPRCR, ShutdownPowerRCR)
+                time.sleep(1)
+            pass
 
     def YesAllButton(self):
         tableauto = "auto"
@@ -184,95 +188,51 @@ class AAA:
     def YesCreateAutoTableButton(self):
         apptableid = "auto"
         db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-        CreateTable = "create table " + apptableid +"(id int(20) auto_increment, app_id int(11), v_val float(255,6), i_val float(255,6), p_val float(255,6), pt_val float(255,6), pf_val float(255,6), date int(20), primary key (id) );"
+        CreateTable = "create table " + apptableid +"(id int(20) auto_increment, app_id int(11), app_table_id int(11), socket_code float(3,0), v_val float(255,6), i_val float(255,6), p_val float(255,6), pt_val float(255,6), pf_val float(255,6), date int(20), primary key (id) );"
         DataBase.Connect(db, CreateTable)
 
-    def ReadPower(self, BootPowerRCR, REPRCR, ShutdownPowerRCR):
-        print "run"
-        Stop = 0
-        while Stop < 1:
-            db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-            PowerSocket.BootPower(BootPowerRCR, 9600)
-            time.sleep(0.5)
-            date, V, I, P, PT, PF = PowerSocket.REP(REPRCR, 9600)
-            if I <= 0:#更新"狀態"資料表"負載"欄位
-                noload = 0
-            else:
-                noload = 1
-                DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
-            if I >= 9:
+    def ReadPower(self, Stop, socket_code, BootPowerRCR, REPRCR, ShutdownPowerRCR):
+        if Stop == "":
+            Stop = 0
+        else:
+            if Stop < 1:
                 db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-                PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
-                DataBase.Status(db, "status", self.crcname.get(), 0, 1, 1, 0)
-                Stop = 2
-            else:
-                apptableid = "auto"
-                print apptableid
-                Select = "select * from " + apptableid + ";"
-                Command = "INSERT INTO " + apptableid +"(id, date, v_val, i_val, p_val, pt_val, pf_val) VALUES(NULL, '%s', '%f', '%f', '%f', '%f', '%f')"%(date, V, I, P, PT, PF)
-                try:
-                    db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-                    DataBase.Connect(db, Select)
-                    print "The Table Is Exist"
-                except:
-                    win = Tk()
-                    win.title("連線失敗")
-                    create = "是否要建立" + apptableid + "表格?"
-                    message = Label(win,text = create)
-                    message.grid(row = 1, column = 1, rowspan = 3, columnspan = 2)
-                    yes = Button(win, text = "Yes", command = self.YesCreateAutoTableButton)
-                    yes.grid(row = 2, column = 1)
-                    no = Button(win, text = "No", command = self.noButton)
-                    no.grid(row = 2, column = 2)
-                    win.mainloop()
+                PowerSocket.BootPower(BootPowerRCR, 9600)
+                time.sleep(0.5)
+                date, V, I, P, PT, PF = PowerSocket.REP(REPRCR, 9600)
+                if I <= 0:#更新"狀態"資料表"負載"欄位
+                    noload = 0
                 else:
+                    noload = 1
+                    DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
+                if I >= 9:
                     db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-                    DataBase.Connect(db, Command)
-                    time.sleep(0.5)
-
+                    PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
+                    DataBase.Status(db, "status", self.crcname.get(), 0, 1, 1, 0)
+                    Stop = 2
+                else:
+                    apptableid = "auto"
+                    print apptableid
+                    Select = "select * from " + apptableid + ";"
+                    Command = "INSERT INTO " + apptableid +"(id, socket_code, date, v_val, i_val, p_val, pt_val, pf_val) VALUES(NULL, '%s', '%s', '%f', '%f', '%f', '%f', '%f')"%(socket_code, date, V, I, P, PT, PF)
+                    try:
+                        db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                        DataBase.Connect(db, Select)
+                        print "The Table Is Exist"
+                    except:
+                        win = Tk()
+                        win.title("連線失敗")
+                        create = "是否要建立" + apptableid + "表格?"
+                        message = Label(win,text = create)
+                        message.grid(row = 1, column = 1, rowspan = 3, columnspan = 2)
+                        yes = Button(win, text = "Yes", command = self.YesCreateAutoTableButton)
+                        yes.grid(row = 2, column = 1)
+                        no = Button(win, text = "No", command = self.noButton)
+                        no.grid(row = 2, column = 2)
+                        win.mainloop()
+                    else:
+                        db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
+                        DataBase.Connect(db, Command)
+                        time.sleep(0.5)
 
 AAA()
-"""
-def ReadPower(BootPowerRCR, REPRCR, ShutdownPowerRCR):
-    print "run"
-    Stop = 0
-    while Stop < 1:
-        db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-        PowerSocket.BootPower(BootPowerRCR, 9600)
-        time.sleep(0.5)
-        date, V, I, P, PT, PF = PowerSocket.REP(REPRCR, 9600)
-        if I <= 0:#更新"狀態"資料表"負載"欄位
-            noload = 0
-        else:
-            noload = 1
-            DataBase.Status(db, "status", self.crcname.get(), 1, 0, noload, 0)
-        if I >= 9:
-            db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-            PowerSocket.ShutdownPower(ShutdownPowerRCR, 9600)
-            DataBase.Status(db, "status", self.crcname.get(), 0, 1, 1, 0)
-            Stop = 2
-        else:
-            apptableid = "auto"
-            print apptableid
-            Select = "select * from " + apptableid + ";"
-            Command = "INSERT INTO " + apptableid +"(id, date, v_val, i_val, p_val, pt_val, pf_val) VALUES(NULL, '%s', '%f', '%f', '%f', '%f', '%f')"%(date, V, I, P, PT, PF)
-            try:
-                db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-                DataBase.Connect(db, Select)
-                print "The Table Is Exist"
-            except:
-                win = Tk()
-                win.title("連線失敗")
-                create = "是否要建立" + apptableid + "表格?"
-                message = Label(win,text = create)
-                message.grid(row = 1, column = 1, rowspan = 3, columnspan = 2)
-                yes = Button(win, text = "Yes", command = self.YesCreateAutoTableButton)
-                yes.grid(row = 2, column = 1)
-                no = Button(win, text = "No", command = self.noButton)
-                no.grid(row = 2, column = 2)
-                win.mainloop()
-            else:
-                db = MySQLdb.connect(host = self.hostname.get(), user = self.username.get(), passwd = self.passwordname.get(), db = self.databasename.get(), charset="utf8")
-                DataBase.Connect(db, Command)
-                time.sleep(0.5)
-"""
