@@ -5,14 +5,19 @@
 20180702可以檢查資料表、更新狀態、創建新資料表、顯示連線資料庫的函式
 201807021751可成功將狀態上傳至資料庫
 """
-from Tkinter import *
 import MySQLdb
 
 def ConnectMySQLServer(Host, User, Passwd, DataBase, Charset):
     db = MySQLdb.connect(Host, User, Passwd, DataBase, Charset)
     return db
 
-def CheckTable(Checktablename,db):#檢查指定資料表是否存在
+def CheckTable(Checktablename,db):
+    """
+    說明:
+        輸入資料表名稱與已連線模組，檢查指定資料表是否存在，如果存在則回傳1不存則回傳0。
+    改進:
+        除了確認資料表的存在，同時確認資料表欄位名稱與資料型態。
+    """
     print Checktablename
     select = "select * from " + Checktablename + ";"
     db.cursor()

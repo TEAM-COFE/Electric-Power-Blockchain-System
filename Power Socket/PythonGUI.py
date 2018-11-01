@@ -11,16 +11,23 @@ from Tkinter import *
 
 class AAA:
     def __init__(self):
+        """
+        說明:
+            當AAA類別被呼叫時，會先呼叫__init__()起始模組，此模組會使用Tkinter裡的Tk()類別建立圖形介面。
+            使用時要先輸入主機IP或網域名稱、MySQL使用者帳號、密碼、資料庫、要控制的電力插座的CRC碼，然後再按連線的按鈕。
+        改進項目:
+            可以將資料表的選項也加入，讓後面的程式自動確認與建立。
+        """
 
-        win = Tk()#使用Tk()
-        win.title("MySQL")
+        win = Tk()#呼叫Tk()類別
+        win.title("MySQL")#使用title()模組
 
-        hostrow, userrow, passwordrow, databaserow, tablerow, crcrow, connectrow = 1, 2, 3, 4, 5, 6, 7#設定列
+        hostrow, userrow, passwordrow, databaserow, tablerow, crcrow, connectrow = 1, 2, 3, 4, 5, 6, 7#設定標籤(Label)與項目(Entry)列的位置
 
         #Host:欄位程式碼
-        host = Label(win, text = "Host: ")#在win建立(標籤)Label，輸出文字為"Host:"
+        host = Label(win, text = "Host: ")#在win建立標籤(Label)，輸出文字為"Host:"
         self.hostname = StringVar()
-        hostentry = Entry(win, textvariable = self.hostname)#在win建立項目(Entry)並將字串存入self.hostname
+        hostentry = Entry(win, textvariable = self.hostname)#在win建立項目(Entry)並將項目內的字串存入self.hostname
         host.grid(row = hostrow, column = 1)#設定標籤(Label)位置在第一列第一欄
         hostentry.grid(row = hostrow, column = 2)#設定項目(Entry)位置在第一列第二欄
 
@@ -63,15 +70,22 @@ class AAA:
         connect = Button(win, text = "連線",command = self.CheckButton)#在win建立按鈕，並在上顯示"連線"，當如果動作呼叫AAA()類別的CheckButton()物件
         connect.grid(row = connectrow, column = 1)
 
-        win.mainloop()
+        win.mainloop()#重複執行
 
     def CheckButton(self):
+        """
+        說明:
+            確認資料表的存在，但不會確認資料表欄位名稱與資料型態。
+        改進項目:
+            再__init__()模組輸入多個資料表名稱，並在這裡自動拆分不同的資料表名稱，再自動確認資料表欄位名稱與資料型態。
+            如果在前面沒有輸入的時候，有預設資料表名稱，即使在沒有輸入的情況下也可以使用。
+        """
         CheckTable1, CheckTable2, CheckTable3, host, user, passwd, datebase = "auto", "MachineLearning", "status", self.hostname.get(), self.username.get(), self.passwordname.get(), self.databasename.get()
-        db = MySQLdb.connect(host, user, passwd, datebase, charset="utf8")
-        CheckTableName1, CheckTableValue1 = DataBase.CheckTable(CheckTable1, db)
-        CheckTableName2, CheckTableValue2 = DataBase.CheckTable(CheckTable2, db)
-        CheckTableName3, CheckTableValue3 = DataBase.CheckTable(CheckTable3, db)
-        if CheckTableValue1 == 1 and CheckTableValue2 == 1 and CheckTableValue3 == 1:
+        db = MySQLdb.connect(host, user, passwd, datebase, charset="utf8")#連線到資料庫
+        CheckTableName1, CheckTableValue1 = DataBase.CheckTable(CheckTable1, db)#確認資料表存在
+        CheckTableName2, CheckTableValue2 = DataBase.CheckTable(CheckTable2, db)#確認資料表存在
+        CheckTableName3, CheckTableValue3 = DataBase.CheckTable(CheckTable3, db)#確認資料表存在
+        if CheckTableValue1 == 1 and CheckTableValue2 == 1 and CheckTableValue3 == 1:#如果
             host = "your connect host: " + host
             user = "user: " + user
             password = "passwd: " + passwd
