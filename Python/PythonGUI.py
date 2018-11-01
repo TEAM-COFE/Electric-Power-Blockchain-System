@@ -1,9 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 # coding = UTF-8
-"""
-
-"""
 import serial
 import time
 import MySQLdb
@@ -15,17 +12,17 @@ from Tkinter import *
 class AAA:
     def __init__(self):
 
-        win = Tk()
+        win = Tk()#使用Tk()
         win.title("MySQL")
 
-        hostrow, userrow, passwordrow, databaserow, tablerow, crcrow, connectrow = 1, 2, 3, 4, 5, 6, 7
+        hostrow, userrow, passwordrow, databaserow, tablerow, crcrow, connectrow = 1, 2, 3, 4, 5, 6, 7#設定列
 
         #Host:欄位程式碼
-        host = Label(win, text = "Host: ")
+        host = Label(win, text = "Host: ")#在win建立(標籤)Label，輸出文字為"Host:"
         self.hostname = StringVar()
-        hostentry = Entry(win, textvariable = self.hostname)
-        host.grid(row = hostrow, column = 1)
-        hostentry.grid(row = hostrow, column = 2)
+        hostentry = Entry(win, textvariable = self.hostname)#在win建立項目(Entry)並將字串存入self.hostname
+        host.grid(row = hostrow, column = 1)#設定標籤(Label)位置在第一列第一欄
+        hostentry.grid(row = hostrow, column = 2)#設定項目(Entry)位置在第一列第二欄
 
         #User:欄位程式碼
         user = Label(win, text = "User: ")
@@ -63,7 +60,7 @@ class AAA:
         crcName.grid(row = crcrow, column = 2)
 
         #連線按鈕的程式碼
-        connect = Button(win, text = "連線",command = self.CheckButton)
+        connect = Button(win, text = "連線",command = self.CheckButton)#在win建立按鈕，並在上顯示"連線"，當如果動作呼叫AAA()類別的CheckButton()物件
         connect.grid(row = connectrow, column = 1)
 
         win.mainloop()
