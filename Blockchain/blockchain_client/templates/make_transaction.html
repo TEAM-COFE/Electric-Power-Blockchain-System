@@ -162,7 +162,8 @@
             <div class="row">
               <label class="col-sm-12">Blockchain Node URL:</label>
               <div class="col-sm-12">
-                <input type="text" name="node_url" id="node_url" rows="2" class="form-control" value="http://127.0.0.1:5000">
+                 <input type="text" name="node_url" id="node_url" rows="2" class="form-control" value="http://127.0.0.1:5000">   
+                 <input type="text" name="node_url" id="node_url_2" rows="2" class="form-control" value="http://127.0.0.1:5002">   
               </div>
             </div>
 
@@ -270,6 +271,34 @@
                 console.log(error);
               }
             });
+            
+            $.ajax({
+              url: document.getElementById("node_url_2").value + "/transactions/new",
+              type: "POST",
+              headers: {'Access-Control-Allow-Origin':'*'},
+              dataType : 'json',
+              data: $('#confirmation_transaction_form').serialize(),
+              success: function(response){
+
+                //reset both forms
+                $("#transaction_form")[0].reset();
+                $("#confirmation_transaction_form")[0].reset();
+                
+                //clean text boxes
+                $("#sender_address").val("");
+                $("#sender_private_key").val("");
+                $("#recipient_address").val("");
+                $("#amount").val("");
+
+                $("#basicModal").modal('hide');
+                $("#success_transaction_modal").modal('show');
+                
+              },
+              error: function(error){
+                console.log(error);
+              }
+            });
+  
 
           });
       });
