@@ -39,10 +39,12 @@ from flask_cors import CORS
 
 
 
-MINING_SENDER = "THE BLOCKCHAIN"
+#MINING_SENDER = "THE BLOCKCHAIN"
+MINING_SENDER = "The same"
 MINING_REWARD = 1
 MINING_DIFFICULTY = 2
-
+IP_self='127.0.0.1'
+port_self=5000
 
 class Blockchain:
 
@@ -72,32 +74,45 @@ class Blockchain:
             raise ValueError('Invalid URL')
 
 
-    def verify_transaction_signature(self, sender_address, signature, transaction):
+    def verify_transaction_signature(self, value_public_key_to_master, signature, transaction):
         """
         Check that the provided signature corresponds to transaction
         signed by the public key (sender_address)
         """
-        public_key = RSA.importKey(binascii.unhexlify(sender_address))
+        #public_key = RSA.importKey(binascii.unhexlify(sender_address))
+        public_key = RSA.importKey(binascii.unhexlify(value_public_key_to_master))
         verifier = PKCS1_v1_5.new(public_key)
         h = SHA.new(str(transaction).encode('utf8'))
         return verifier.verify(h, binascii.unhexlify(signature))
 
 
-    def submit_transaction(self, sender_address, recipient_address, value, signature):
+    def submit_transaction(self, sender_address, recipient_address, value_voltage, value_current,     value_power,value_datatime,value_public_key_to_master,signature):
         """
         Add a transaction to transactions array if the signature verified
         """
         transaction = OrderedDict({'sender_address': sender_address, 
                                     'recipient_address': recipient_address,
-                                    'value': value})
+                                    'value_voltage': value_voltage,
+                                    'value_current': value_current,
+                                    'value_power': value_power,
+                                    'value_datatime': value_datatime,
+                                    'value_public_key_to_master': value_public_key_to_master})   
 
+        print('\n\n @@@@ transaction = ')
+        print('\n\n transaction = ',transaction)
         #Reward for mining a block
-        if sender_address == MINING_SENDER:
+        #if asender_address == MINING_SENDER:
+        if value_public_key_to_master == MINING_SENDER:
             self.transactions.append(transaction)
             return len(self.chain) + 1
         #Manages transactions from wallet to another wallet
         else:
-            transaction_verification = self.verify_transaction_signature(sender_address, signature, transaction)
+            #transaction_verification = self.verify_transaction_signature(sender_address, signature, transaction)
+            transaction_verification = self.verify_transaction_signature(value_public_key_to_master , signature, transaction)
+            print('\n\n transaction_verification ::: ')
+            print('\n\n transaction_verification = ',transaction_verification)
+            #print('\n\n $$$$$ signature = ',signature)
+            
             if transaction_verification:
                 self.transactions.append(transaction)
                 return len(self.chain) + 1
@@ -109,6 +124,7 @@ class Blockchain:
         """
         Add a block of transactions to the blockchain
         """
+        """
         block = {'block_number': len(self.chain) + 1,
                 'timestamp': time(),
                 'transactions': self.transactions,
@@ -119,8 +135,49 @@ class Blockchain:
         self.transactions = []
 
         self.chain.append(block)
-        return block
+       
+        """
+        
+        print('\n\n     ####       self.transactions= ',self.transactions)
+        #transactions_empty=1
+        if (self.transactions==[]):
+            print('\n\n ####       if (self.transactions==[]) ')
+           
+            block = {'block_number': len(self.chain) + 1,
+                     'timestamp': time(),
+                     'transactions':self.transactions,
+                     'nonce': nonce,
+                     'previous_hash': previous_hash}
+            self.transactions = []
+            
+            if len(self.chain)==0 :
+                transactions_empty=0
+                self.chain.append(block)
+            print('self.chain.remove(block)==',block)
+            print('len(self.chain)==',len(self.chain))
+            print('transactions_empty===',transactions_empty)   
+            return block    
+                      
+        if (self.transactions!=[]):
+            print('\n\n !!!  if (self.transactions!=[]) ')
+            
+            if (len(self.chain)== 1 and transactions_empty==0):
+                transactions_empty=1
+                print('len(self.chain)== 1 && self.transactions==$$$')
+                self.chain.remove(block)
+                print('self.chain.remove(block)==',block)
+                print('len(self.chain)==',len(self.chain))
+            block = {'block_number': len(self.chain) + 1,
+                     'timestamp': time(),
+                     'transactions': self.transactions,
+                     'nonce': nonce,
+                     'previous_hash': previous_hash}
 
+            # Reset the current list of transactions
+            
+            self.transactions = []
+            self.chain.append(block)
+            return block
 
     def hash(self, block):
         """
@@ -175,7 +232,8 @@ class Blockchain:
             #Delete the reward transaction
             transactions = block['transactions'][:-1]
             # Need to make sure that the dictionary is ordered. Otherwise we'll get a different hash
-            transaction_elements = ['sender_address', 'recipient_address', 'value']
+            #transaction_elements = ['sender_address', 'recipient_address', 'value']
+            transaction_elements = ['sender_address', 'recipient_address', 'value_voltage','value_current','value_power','value_datatime']
             transactions = [OrderedDict((k, transaction[k]) for k in transaction_elements) for transaction in transactions]
 
             if not self.valid_proof(transactions, block['previous_hash'], block['nonce'], MINING_DIFFICULTY):
@@ -238,14 +296,25 @@ def configure():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.form
-
+ 
     # Check that the required fields are in the POST'ed data
-    required = ['sender_address', 'recipient_address', 'amount', 'signature']
+    print('\n\n @@@@@@@@@@@@@')
+    print('\n\n values = ',values )
+    print('\n\n -------------  values = ' )
+   #print('\n\n values amount_4=',values['amount_3'])
+    required = ['sender_address', 'recipient_address', 'amount_voltage', 'amount_current', 'amount_power','amount_datatime','public_key_to_master', 'signature']
+    
+    print('\n\n required  = ',required  )
     if not all(k in values for k in required):
+        print('\n\n k==',k)
         return 'Missing values', 400
     # Create a new Transaction
-    transaction_result = blockchain.submit_transaction(values['sender_address'], values['recipient_address'], values['amount'], values['signature'])
-
+    
+    transaction_result = blockchain.submit_transaction(values['sender_address'], values['recipient_address'], values['amount_voltage'], values['amount_current'],values['amount_power'],values['amount_datatime'],values['public_key_to_master'],values['signature'])
+    #
+    print('\n\ntransaction_result==')
+    #print('\n\ntransaction_result :::values['amount_4']=='values['amount_4'])
+    print('\n\ntransaction_result==',transaction_result)
     if transaction_result == False:
         response = {'message': 'Invalid Transaction!'}
         return jsonify(response), 406
@@ -276,8 +345,15 @@ def mine():
     nonce = blockchain.proof_of_work()
 
     # We must receive a reward for finding the proof.
-    blockchain.submit_transaction(sender_address=MINING_SENDER, recipient_address=blockchain.node_id, value=MINING_REWARD, signature="")
-
+    """
+    blockchain.submit_transaction(sender_address=MINING_SENDER, recipient_address=blockchain.node_id, value=MINING_REWARD, value_current=MINING_REWARD, value_power=MINING_REWARD, value_datatime=MINING_REWARD, value_d="", signature="")
+    """
+    print('\n\n @@@@@ def mine()')
+    """
+    blockchain.submit_transaction(sender_address=MINING_SENDER, recipient_address=IP_self+':'+str(port_self), value_voltage=MINING_REWARD, value_current=MINING_REWARD, value_power=MINING_REWARD, value_datatime=MINING_REWARD,value_public_key_to_master=MINING_SENDER,signature="")
+    """
+    print('\n\n  def mine(): recipient_address==')
+    print('\n\n  def mine():recipient_address==',blockchain.node_id)
     # Forge the new Block by adding it to the chain
     previous_hash = blockchain.hash(last_block)
     block = blockchain.create_block(nonce, previous_hash)
@@ -340,11 +416,11 @@ if __name__ == '__main__':
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
-    parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
+    parser.add_argument('-p', '--port', default=port_self, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
 
-    app.run(host='127.0.0.1', port=port)
+    app.run(host=IP_self, port=port)
 
 
 

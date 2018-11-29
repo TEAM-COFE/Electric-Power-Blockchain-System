@@ -31,19 +31,34 @@ from flask import Flask, jsonify, request, render_template
 
 class Transaction:
 
-    def __init__(self, sender_address, sender_private_key, recipient_address, value):
+    def __init__(self, sender_address, sender_private_key, recipient_address,  value,  value_current,value_power,value_datatime,value_public_key_to_master):
         self.sender_address = sender_address
         self.sender_private_key = sender_private_key
         self.recipient_address = recipient_address
         self.value = value
+        self.value_current= value_current
+        self.value_power= value_power
+        self.value_datatime= value_datatime
+        
+        self.value_public_key_to_master= value_public_key_to_master
+        print('\n\n class  ############=')
+        print('\n\n class  value=',value)
+        print('\n\n class  value_current =',value_current)
+        #print('\n\n class  value=',value)
+        print('\n')
 
-    def __getattr__(self, attr):
-        return self.data[attr]
+    #def __getattr__(self, attr):
+       # return self.data[attr]
+
 
     def to_dict(self):
         return OrderedDict({'sender_address': self.sender_address,
                             'recipient_address': self.recipient_address,
-                            'value': self.value})
+                            'value': self.value,
+                            'value_current': self.value_current,
+                            'value_power': self.value_power,
+                            'value_datatime': self.value_datatime,
+                            'value_public_key_to_master': self.value_public_key_to_master})
 
     def sign_transaction(self):
         """
@@ -83,18 +98,63 @@ def new_wallet():
 	return jsonify(response), 200
 
 @app.route('/generate/transaction', methods=['POST'])
+
 def generate_transaction():
-	
-	sender_address = request.form['sender_address']
-	sender_private_key = request.form['sender_private_key']
-	recipient_address = request.form['recipient_address']
-	value = request.form['amount']
-
-	transaction = Transaction(sender_address, sender_private_key, recipient_address, value)
-
-	response = {'transaction': transaction.to_dict(), 'signature': transaction.sign_transaction()}
-
-	return jsonify(response), 200
+    sender_address=request.form['sender_address']
+    sender_private_key=request.form['sender_private_key']
+    recipient_address=request.form['recipient_address']
+    value=request.form['amount']
+    value_current=request.form['amount_current']
+    value_power=request.form['amount_power']
+    #value_d=request.form['amount_4']
+    value_datatime=request.form['amount_datatime']
+    value_public_key_to_master=sender_private_key
+    print('\naaaa')
+    print('\n\n sender_address=',sender_address)
+    print('\n\n sender_private_key=',sender_private_key)
+    print('\n\n recipient_address=',recipient_address)
+    print('\n\n value=',value)
+    print('\n\n value_current=',value_current)
+    print('\n\n value_power=',value_power)
+    print('\n\n value_datatime=',value_datatime)
+    print('\n\n value_public_key_to_master=',value_public_key_to_master)
+    print('\n')
+    transaction = Transaction(sender_address, sender_private_key, recipient_address,  value, value_current, value_power,value_datatime,value_public_key_to_master)
+    print('\nbbbb')
+    #print('\n\n transaction.value_2 ===',transaction.value_2)
+    print('\n')
+    
+    print('\n\n type (transaction) =',type(transaction))
+    print('\n\n transaction.sender_address ===',transaction.sender_address )
+    print('\n@@@@@@@')
+    #print('\n\n type (transaction) =',type(transaction))
+    print('\n\n transaction.recipient_address ===',transaction.recipient_address )
+    print('\n\n transaction.value ===',transaction.value)
+    print('\n')
+    print('\nccc')
+    print('\n\n transaction.value_current ===',transaction.value_current)
+    print('\n\n transaction.value_power ===',transaction.value_power)
+    print('\n\n transaction.value_public_key_to_master ===',transaction.value_public_key_to_master)
+    print('\n')
+    print('\n')
+    
+    #print('\n\n transaction.value_2 ===',transaction.value_2)
+    #print('\n\n signature ===',transaction.sign_transaction())
+    print('\n')
+    print('\nddd')
+    response = {'transaction': transaction.to_dict(), 'signature': transaction.sign_transaction()}
+    print('\n')
+    print('\nfff')
+    print('\n\n type (transaction) =',type(transaction))
+    print('\n\n transaction.value_current ===',transaction.value_current)
+    print('\n\n transaction.value_power ===',transaction.value_power)
+    print('\n\n transaction.value_d ===',transaction.value_public_key_to_master)
+    print('\n')
+    print('\n')
+    
+    #print('\n\n response ===',response)
+    #print('\n')
+    return jsonify(response), 200
 
 
 if __name__ == '__main__':
