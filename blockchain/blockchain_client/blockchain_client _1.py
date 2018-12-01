@@ -31,19 +31,17 @@ from flask import Flask, jsonify, request, render_template
 
 class Transaction:
 
-    def __init__(self, sender_address, sender_private_key, recipient_address,  value_voltage,  value_current,value_power,value_datatime,value_public_key_to_master):
+    def __init__(self, sender_address, sender_private_key, recipient_address,  value,  value_b,value_c,value_d):
         self.sender_address = sender_address
         self.sender_private_key = sender_private_key
         self.recipient_address = recipient_address
-        self.value_voltage = value_voltage
-        self.value_current= value_current
-        self.value_power= value_power
-        self.value_datatime= value_datatime
-        
-        self.value_public_key_to_master= value_public_key_to_master
+        self.value = value
+        self.value_b= value_b
+        self.value_c= value_c
+        self.value_d= value_d
         print('\n\n class  ############=')
-        print('\n\n class  value_voltage=', value_voltage)
-        print('\n\n class  value_current =',value_current)
+        print('\n\n class  value=',value)
+        print('\n\n class  value_b =',value_b)
         #print('\n\n class  value=',value)
         print('\n')
 
@@ -54,11 +52,10 @@ class Transaction:
     def to_dict(self):
         return OrderedDict({'sender_address': self.sender_address,
                             'recipient_address': self.recipient_address,
-                            'value_voltage': self.value_voltage,
-                            'value_current': self.value_current,
-                            'value_power': self.value_power,
-                            'value_datatime': self.value_datatime,
-                            'value_public_key_to_master': self.value_public_key_to_master})
+                            'value': self.value,
+                            'value_b': self.value_b,
+                            'value_c': self.value_c,
+                            'value_d': self.value_d})
 
     def sign_transaction(self):
         """
@@ -103,23 +100,20 @@ def generate_transaction():
     sender_address=request.form['sender_address']
     sender_private_key=request.form['sender_private_key']
     recipient_address=request.form['recipient_address']
-    value_voltage=request.form['amount_voltage']
-    value_current=request.form['amount_current']
-    value_power=request.form['amount_power']
-    #value_d=request.form['amount_4']
-    value_datatime=request.form['amount_datatime']
-    value_public_key_to_master=sender_private_key
+    value=request.form['amount']
+    value_b=request.form['amount_2']
+    value_c=request.form['amount_3']
+    value_d=request.form['amount_4']
     print('\naaaa')
     print('\n\n sender_address=',sender_address)
     print('\n\n sender_private_key=',sender_private_key)
     print('\n\n recipient_address=',recipient_address)
-    print('\n\n value=',value_voltage)
-    print('\n\n value_current=',value_current)
-    print('\n\n value_power=',value_power)
-    print('\n\n value_datatime=',value_datatime)
-    print('\n\n value_public_key_to_master=',value_public_key_to_master)
+    print('\n\n value=',value)
+    print('\n\n value_b=',value_b)
+    print('\n\n value_c=',value_c)
+    print('\n\n value_d=',value_d)
     print('\n')
-    transaction = Transaction(sender_address, sender_private_key, recipient_address,  value_voltage, value_current, value_power,value_datatime,value_public_key_to_master)
+    transaction = Transaction(sender_address, sender_private_key, recipient_address,  value, value_b, value_c,value_d)
     print('\nbbbb')
     #print('\n\n transaction.value_2 ===',transaction.value_2)
     print('\n')
@@ -129,12 +123,12 @@ def generate_transaction():
     print('\n@@@@@@@')
     #print('\n\n type (transaction) =',type(transaction))
     print('\n\n transaction.recipient_address ===',transaction.recipient_address )
-    print('\n\n transaction.value ===',transaction.value_voltage)
+    print('\n\n transaction.value ===',transaction.value)
     print('\n')
     print('\nccc')
-    print('\n\n transaction.value_current ===',transaction.value_current)
-    print('\n\n transaction.value_power ===',transaction.value_power)
-    print('\n\n transaction.value_public_key_to_master ===',transaction.value_public_key_to_master)
+    print('\n\n transaction.value_b ===',transaction.value_b)
+    print('\n\n transaction.value_c ===',transaction.value_c)
+    print('\n\n transaction.value_d ===',transaction.value_d)
     print('\n')
     print('\n')
     
@@ -146,9 +140,9 @@ def generate_transaction():
     print('\n')
     print('\nfff')
     print('\n\n type (transaction) =',type(transaction))
-    print('\n\n transaction.value_current ===',transaction.value_current)
-    print('\n\n transaction.value_power ===',transaction.value_power)
-    print('\n\n transaction.value_d ===',transaction.value_public_key_to_master)
+    print('\n\n transaction.value_b ===',transaction.value_b)
+    print('\n\n transaction.value_c ===',transaction.value_c)
+    print('\n\n transaction.value_d ===',transaction.value_d)
     print('\n')
     print('\n')
     

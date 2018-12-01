@@ -64,7 +64,7 @@
     <form id="transaction_form">
 
         <div class="row">
-          <label class="col-sm-2">Input Source:</label>
+          <label class="col-sm-2">Sender Address:</label>
           <div class="col-sm-10">
             <input type="text" name="sender_address" id="sender_address" rows="2" class="form-control">
 
@@ -73,54 +73,6 @@
 
         <br>
         
-        
-        
-        <div class="row">
-          <label class="col-sm-2">Destination Address:</label>
-          <div class="col-sm-10">
-            <input type="text" name="recipient_address" id="recipient_address" rows="2" class="form-control">
-          </div>
-        </div>
-
-        <br>
-        
-        <div class="row">
-          <label class="col-sm-2">Voltage:</label>
-          <div class="col-sm-10">
-            <input type="text" name="amount_voltage" id="amount_voltage" rows="2" class="form-control">
-          </div>
-        </div>
-
-        <br>
-        
-        <div class="row">
-          <label class="col-sm-2">Current :</label>
-          <div class="col-sm-10">
-            <input type="text" name="amount_current" id="amount_current" rows="2" class="form-control">
-          </div>
-        </div>
-
-        <br>
-        
-        <div class="row">
-          <label class="col-sm-2">Power:</label>
-          <div class="col-sm-10">
-            <input type="text" name="amount_power" id="amount_power" rows="2" class="form-control">
-          </div>
-        </div>
-        
-        <br>
-         
-        <div class="row">
-          <label class="col-sm-2">Datatime:</label>
-          <div class="col-sm-10">
-            <input type="text" name="amount_datatime" id="amount_datatime" rows="2" class="form-control">
-          </div>
-        </div>
-        
-        <br>
-        
-                
         <div class="row">
           <label class="col-sm-2">Sender Private Key:</label>
           <div class="col-sm-10">
@@ -129,11 +81,24 @@
         </div>
 
         <br>
-        <div class="col-sm-10">
-            <input type="hidden"  name="public_key_to_master" id="public_key_to_master" rows="2" class="form-control">
-         </div>
         
+        <div class="row">
+          <label class="col-sm-2">Recipient Address:</label>
+          <div class="col-sm-10">
+            <input type="text" name="recipient_address" id="recipient_address" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
         
+        <div class="row">
+          <label class="col-sm-2">Amount to Send:</label>
+          <div class="col-sm-10">
+            <input type="text" name="amount" id="amount" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
         
         <div class="row">
           <div class="col-lg-12 text-center">
@@ -163,7 +128,7 @@
             <form id="confirmation_transaction_form">
 
                 <div class="row">
-                  <label class="col-sm-12">Input Source:</label>
+                  <label class="col-sm-12">Sender Address:</label>
                   <div class="col-sm-12">
                     <input type="text" name="sender_address" id="confirmation_sender_address" rows="2" class="form-control" readonly>
 
@@ -171,59 +136,25 @@
                 </div>
 
                 <div class="row">
-                  <label class="col-sm-12">Destination Address:</label>
+                  <label class="col-sm-12">Recipient Address:</label>
                   <div class="col-sm-12">
                     <input type="text" name="recipient_address" id="confirmation_recipient_address" rows="2" class="form-control" readonly>
                   </div>
                 </div>
                 
                 <div class="row">
-                  <label class="col-sm-12">Voltage data: </label>
+                  <label class="col-sm-12">Amount to Send:</label>
                   <div class="col-sm-12">
-                    <input type="text" name="amount_voltage" id="confirmation_voltage" rows="2" class="form-control" readonly>
+                    <input type="text" name="amount" id="confirmation_amount" rows="2" class="form-control" readonly>
                   </div>
                 </div>
-                
-                <div class="row">
-                  <label class="col-sm-12">Current data:</label>
-                  <div class="col-sm-12">
-                    <input type="text" name="amount_current" id="confirmation_current" rows="2" class="form-control" readonly>
-                  </div>
-                </div>
-                
-                <div class="row">
-                  <label class="col-sm-12">Power data:</label>
-                  <div class="col-sm-12">
-                    <input type="text" name="amount_power" id="confirmation_power" rows="2" class="form-control" readonly>
-                  </div>
-                </div>
-                
-                <div class="row">
-                  <label class="col-sm-12">Measure time:</label>
-                  <div class="col-sm-12">
-                    <input type="text" name="amount_datatime" id="confirmation_datatime" rows="2" class="form-control" readonly>
-                  </div>
-                </div>
-                
-                
-                
-                
+
                 <div class="row">
                   <label class="col-sm-12">Transaction Signature:</label>
                   <div class="col-sm-12">
                     <input type="text" name="signature" id="transaction_signature" rows="2" class="form-control" readonly>
                   </div>
                 </div>
-                
-                <div class="invisible">
-                <div class="row">
-                  <label class="col-sm-12">public_key_to_master to Send:</label>
-                  <div class="col-sm-12">
-                    <input type="text" name="public_key_to_master" id="confirmation_public_key_to_master" rows="2" class="form-control" readonly>
-                  </div>
-                </div>s
-                </div>
-
 
             </form>
 
@@ -293,19 +224,14 @@
 
                 document.getElementById("confirmation_sender_address").value = response["transaction"]["sender_address"];
                 document.getElementById("confirmation_recipient_address").value = response["transaction"]["recipient_address"];
-                document.getElementById("confirmation_voltage").value = response["transaction"]["value_voltage"];
-                document.getElementById("confirmation_current").value = response["transaction"]["value_current"];
-                document.getElementById("confirmation_power").value = response["transaction"]["value_power"];
-                document.getElementById("confirmation_datatime").value = response["transaction"]["value_datatime"];
-                document.getElementById("confirmation_public_key_to_master").value =document.getElementById("sender_private_key").value;
+                document.getElementById("confirmation_amount").value = response["transaction"]["value"];
                 document.getElementById("transaction_signature").value = response["signature"];
-                 
+
                 $("#basicModal").modal('show');
                 
               },
               error: function(error){
                 console.log(error);
-                console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');  
               }
             });
 
@@ -334,17 +260,14 @@
                 $("#sender_address").val("");
                 $("#sender_private_key").val("");
                 $("#recipient_address").val("");
-                $("#amount_voltage").val("");
-                $("#amount_current").val("");
-                $("#amount_power").val("");
-                $("#amount_datatime").val("");  
+                $("#amount").val("");
+
                 $("#basicModal").modal('hide');
                 $("#success_transaction_modal").modal('show');
                 
               },
               error: function(error){
                 console.log(error);
-                
               }
             });
 

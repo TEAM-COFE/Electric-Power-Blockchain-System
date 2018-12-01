@@ -45,10 +45,9 @@ MINING_REWARD = 1
 MINING_DIFFICULTY = 2
 IP_self='127.0.0.1'
 port_self=5000
-#transactions_empty=0
 
 class Blockchain:
-    #transactions_empty=0
+
     def __init__(self):
         
         self.transactions = []
@@ -102,12 +101,18 @@ class Blockchain:
         print('\n\n @@@@ transaction = ')
         print('\n\n transaction = ',transaction)
         #Reward for mining a block
+        
         #if asender_address == MINING_SENDER:
+        
         if value_public_key_to_master == MINING_SENDER:
             self.transactions.append(transaction)
             return len(self.chain) + 1
         #Manages transactions from wallet to another wallet
         else:
+        
+        #if (self.transactions !=[]):
+        #if (transaction !=[]):
+        #if (self.transactions !=[]):
             #transaction_verification = self.verify_transaction_signature(sender_address, signature, transaction)
             transaction_verification = self.verify_transaction_signature(value_public_key_to_master , signature, transaction)
             print('\n\n transaction_verification ::: ')
@@ -116,6 +121,7 @@ class Blockchain:
             
             if transaction_verification:
                 self.transactions.append(transaction)
+                print('\n\n len(self.chain)= ',len(self.chain))
                 return len(self.chain) + 1
             else:
                 return False
@@ -125,75 +131,52 @@ class Blockchain:
         """
         Add a block of transactions to the blockchain
         """
+        
+        print('\n\n self.transactions= ',self.transactions)
         """
         block = {'block_number': len(self.chain) + 1,
                 'timestamp': time(),
                 'transactions': self.transactions,
                 'nonce': nonce,
                 'previous_hash': previous_hash}
-
-        # Reset the current list of transactions
-        self.transactions = []
-
-        self.chain.append(block)
-       
         """
-        
-        print('\n\n     ####       self.transactions= ',self.transactions)
-        if (self.transactions!=[]):
-            print('\n\n ####       if (self.transactions!=[]):= ')
-            #transactions_empty=0
-            #temp=transactions_empty
-            chain_0= self.chain[0]
-            print('\n\n !!! chain_0;;;',chain_0)
-            print('\n\n !!! type chain_0',type(chain_0))
-            #print('\n\n ####       self.chain[0][2]= ',self.chain[0][2])
-            #if (len(self.chain)== 1 and  temp== 1):
-            #print('n\n !!! iself.chain[0] :',self.chain[0])
-            #print('n\n !!! iself.chain[0] :',value(self.chain[0].['transactions']))
-            #if (len(self.chain)== 1 and  self.chain[0].['transactions']== '999'):
-            if (len(self.chain)== 1 and chain_0['transactions']=='999'):   
-                #transactions_empty=transactions_empty+1
-                print('\n\n !!! if (len(self.chain)== 1 and  transactions_empty== 0):')
-                print('\n\n !!! self.chain)',self.chain)
-                print('\n\n !!! type self.chain',type(self.chain))
-                print('c !!! type self.chain[0]',type(self.chain[0]))
-                # chain_0= self.chain[0]
-                ##print('\n\n !!! type chain_0',type(chain_0))
-                #self.chain.remove(self.chain[0])
-                self.chain.remove(self.chain[0])
-                print('\n\n@@@@  After self.chain.remove(block)==',self.chain)
-                print('len(self.chain)==',len(self.chain))
-            block = {'block_number': len(self.chain) + 1,
+        aa=1
+        print('\n\n aa= ',aa)
+         
+        if (self.transactions !=[]):
+            print('\n\n  if (self.transactions !=[]) ')
+            bbb=1
+            print('\n\n bbb= ',bbb)
+            block = {'block_number': len(self.chain) + 100,
                      'timestamp': time(),
                      'transactions': self.transactions,
                      'nonce': nonce,
                      'previous_hash': previous_hash}
-
-            # Reset the current list of transactions
-            
+            #self.chain.append(block)
             self.transactions = []
             self.chain.append(block)
-            print('\n\n **********8  After  self.chain.append(block)==',self.chain)
-            print('len(self.chain)==',len(self.chain))
-            return block
+            return block 
         else:
-            print('\n\n !!!  else: !!!  ')
-            block = {'block_number': len(self.chain) + 1,
-                     'timestamp': time(),
-                     'transactions':'999',
-                     'nonce': nonce,
-                     'previous_hash': previous_hash}
-            #self.transactions = []
-            
-            if len(self.chain)==0 :
-                transactions_empty=1
-                print('\n\n !!! if len(self.chain)==0 :  transactions_empty=',transactions_empty)
-                self.chain.append(block)
-                print('self.chain.remove(block)==',block)
-                print('len(self.chain)==',len(self.chain))
-                #print('transactions_empty===',transactions_empty)
-            return block
+            print('\n\n  else:  (self.transactions !=[])')
+            bbb=2
+            print('\n\n bbb= ',bbb)
+            """
+            block = {#'block_number': len(self.chain)-1,
+                     'block_number': '',
+                     'timestamp': '',
+                     'transactions':'',
+                     'nonce': '',
+                     'previous_hash':''}
+            """
+            #block =[]
+            return False
+        # Reset the current list of transactions
+        
+        #self.transactions = []
+        #self.chain.append(block)
+        #return block if bbb==1
+        #return block 
+
 
 
     def hash(self, block):
@@ -358,6 +341,8 @@ def full_chain():
 @app.route('/mine', methods=['GET'])
 def mine():
     # We run the proof of work algorithm to get the next proof...
+    print('\n\n !!!! def mine(): last_block')
+   #last_block = blockchain.chain[-1]
     last_block = blockchain.chain[-1]
     nonce = blockchain.proof_of_work()
 
@@ -372,11 +357,16 @@ def mine():
     print('\n\n  def mine(): recipient_address==')
     print('\n\n  def mine():recipient_address==',blockchain.node_id)
     # Forge the new Block by adding it to the chain
+    """
+    if (self.transactions !=[]):
+        previous_hash = blockchain.hash(last_block)
+        block = blockchain.create_block(nonce, previous_hash)
+    """
     previous_hash = blockchain.hash(last_block)
     block = blockchain.create_block(nonce, previous_hash)
-    print('\n\n  def mine()   block  ==',block)  
-    print('\n\n  def mine()   block_number  ==',block['block_number'])
-    print('\n\n  def mine()   transactions  ==', block['transactions'])
+    
+    print('\n\n  def mine():block=',block)
+    
     response = {
         'message': "New Block Forged",
         'block_number': block['block_number'],

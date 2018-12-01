@@ -45,10 +45,9 @@ MINING_REWARD = 1
 MINING_DIFFICULTY = 2
 IP_self='127.0.0.1'
 port_self=5000
-#transactions_empty=0
 
 class Blockchain:
-    #transactions_empty=0
+
     def __init__(self):
         
         self.transactions = []
@@ -142,28 +141,6 @@ class Blockchain:
         print('\n\n     ####       self.transactions= ',self.transactions)
         if (self.transactions!=[]):
             print('\n\n ####       if (self.transactions!=[]):= ')
-            #transactions_empty=0
-            #temp=transactions_empty
-            chain_0= self.chain[0]
-            print('\n\n !!! chain_0;;;',chain_0)
-            print('\n\n !!! type chain_0',type(chain_0))
-            #print('\n\n ####       self.chain[0][2]= ',self.chain[0][2])
-            #if (len(self.chain)== 1 and  temp== 1):
-            #print('n\n !!! iself.chain[0] :',self.chain[0])
-            #print('n\n !!! iself.chain[0] :',value(self.chain[0].['transactions']))
-            #if (len(self.chain)== 1 and  self.chain[0].['transactions']== '999'):
-            if (len(self.chain)== 1 and chain_0['transactions']=='999'):   
-                #transactions_empty=transactions_empty+1
-                print('\n\n !!! if (len(self.chain)== 1 and  transactions_empty== 0):')
-                print('\n\n !!! self.chain)',self.chain)
-                print('\n\n !!! type self.chain',type(self.chain))
-                print('c !!! type self.chain[0]',type(self.chain[0]))
-                # chain_0= self.chain[0]
-                ##print('\n\n !!! type chain_0',type(chain_0))
-                #self.chain.remove(self.chain[0])
-                self.chain.remove(self.chain[0])
-                print('\n\n@@@@  After self.chain.remove(block)==',self.chain)
-                print('len(self.chain)==',len(self.chain))
             block = {'block_number': len(self.chain) + 1,
                      'timestamp': time(),
                      'transactions': self.transactions,
@@ -173,26 +150,20 @@ class Blockchain:
             # Reset the current list of transactions
             
             self.transactions = []
+
             self.chain.append(block)
-            print('\n\n **********8  After  self.chain.append(block)==',self.chain)
-            print('len(self.chain)==',len(self.chain))
             return block
         else:
             print('\n\n !!!  else: !!!  ')
             block = {'block_number': len(self.chain) + 1,
                      'timestamp': time(),
-                     'transactions':'999',
+                     'transactions': self.transactions,
                      'nonce': nonce,
                      'previous_hash': previous_hash}
-            #self.transactions = []
-            
+            self.transactions = []
+            #aaa=1
             if len(self.chain)==0 :
-                transactions_empty=1
-                print('\n\n !!! if len(self.chain)==0 :  transactions_empty=',transactions_empty)
                 self.chain.append(block)
-                print('self.chain.remove(block)==',block)
-                print('len(self.chain)==',len(self.chain))
-                #print('transactions_empty===',transactions_empty)
             return block
 
 
@@ -374,9 +345,7 @@ def mine():
     # Forge the new Block by adding it to the chain
     previous_hash = blockchain.hash(last_block)
     block = blockchain.create_block(nonce, previous_hash)
-    print('\n\n  def mine()   block  ==',block)  
-    print('\n\n  def mine()   block_number  ==',block['block_number'])
-    print('\n\n  def mine()   transactions  ==', block['transactions'])
+
     response = {
         'message': "New Block Forged",
         'block_number': block['block_number'],

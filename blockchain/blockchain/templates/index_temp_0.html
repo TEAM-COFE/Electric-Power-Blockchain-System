@@ -158,9 +158,9 @@
             //Generate Transactions Table
             var transactions = [];
             count = 1;
-
-            for (i = 1; i <= response.length-1; i++) { 
-              for (j = 0; j < response["chain"][i]["transactions"].length; j++) {
+            //for (i = 1; i < response.length; i++) { 
+            for (i = 1; i < response.length; i++) { 
+              for (j = 0; j <= response["chain"][i]["transactions"].length; j++) {
 
                 //format date 
                 var options = {  year: "numeric", month: "short",  day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"  };
@@ -176,7 +176,10 @@
                               response["chain"][i]["transactions"][j]["value_datatime"],
                               
                               formattedDateTime,
-                              response["chain"][i]["block_number"]];
+                              //response["chain"][i]["block_number"]
+                              response["chain"][i]["block_number"]
+                              ];
+                  
                 transactions.push(transaction);
 
                 count += 1;
