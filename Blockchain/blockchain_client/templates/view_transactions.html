@@ -122,7 +122,12 @@
                   transaction = [count,
                                 response["chain"][i]["transactions"][j]["recipient_address"],
                                 response["chain"][i]["transactions"][j]["sender_address"],
-                                response["chain"][i]["transactions"][j]["value"],
+                                response["chain"][i]["transactions"][j]["value_voltage"],
+                                response["chain"][i]["transactions"][j]["value_current"],
+                                response["chain"][i]["transactions"][j]["value_power"],
+                                response["chain"][i]["transactions"][j]["value_energy"],
+                                response["chain"][i]["transactions"][j]["value_transaction_energy"], 
+                                response["chain"][i]["transactions"][j]["value_datatime"],
                                 formattedDateTime,
                                 response["chain"][i]["block_number"]];
                   transactions.push(transaction);
@@ -137,7 +142,12 @@
                   columns: [{ title: "#" },
                             { title: "Recipient Address"},
                             { title: "Sender Address"},
-                            { title: "Value"},
+                            { title: "Voltage"},
+                            { title: "Current"},
+                            { title: "Power"},
+                            { title: "Energy"},
+                            { title: "Datatime"},
+                            { title: "Tran_energy"},
                             { title: "Timestamp"},
                             { title: "Block"}],
                   columnDefs: [ {targets: [1,2,3,4,5], render: $.fn.dataTable.render.ellipsis( 25 )}]

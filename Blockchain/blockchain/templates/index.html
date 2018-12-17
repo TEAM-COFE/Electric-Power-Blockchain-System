@@ -116,12 +116,14 @@
               for (i = 0; i < response['transactions'].length; i++) { 
 
                 transaction = [count,
-                              response['transactions'][i]["recipient_address"],
                               response['transactions'][i]["sender_address"],
+                              response['transactions'][i]["recipient_address"],
                               response['transactions'][i]["value_voltage"],
                               response['transactions'][i]["value_current"],
                               response['transactions'][i]["value_power"],
-                              response['transactions'][i]["value_datatime"]];
+                              response['transactions'][i]["value_energy"], 
+                              response['transactions'][i]["value_datatime"],
+                              response['transactions'][i]["value_transaction_energy"]];
 
                   transactions.push(transaction);
 
@@ -132,12 +134,15 @@
               $('#unmined_transactions_table').dataTable( {
                 data: transactions,
                 columns: [{ title: "#" },
-                          { title: "Input"},
-                          { title: "Destination"},
-                          { title: "Value(V)"},
+                          { title: "User"},
+                          { title: "Receiver"},
+                          { title: "Voltage(V)"},
                           { title: "Current(A)"},
                           { title: "Power(W)"},
-                          { title: "Datatime"}],
+                          { title: "Energy(KW-hr)"},
+                          { title: "Tran_energy(KW-hr)"},
+                          { title: "Datatime"}
+                          ],
                 columnDefs: [ {targets: [1,2,3], render: $.fn.dataTable.render.ellipsis( 25 )}]
               } );
 
@@ -154,45 +159,109 @@
           type: 'GET',
           success: function(response){
 
-            //console.log(response);
+            
+              
+              
+              //console.log(response);
             //Generate Transactions Table
             var transactions = [];
             count = 1;
-
-            for (i = 1; i <= response.length-1; i++) { 
+               
+                   
+                  // transactions.push(transaction);
+              
+                
+              
+            //i=0;
+           // while (i <=(response.length-1))
+           // {
+           // for (i = 0; i <=(response.length-1); i++) {
+            //for (i = 0; i i++) { 
+       
+              i=0;
+           var options = {  year: "numeric", month: "short",  day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"  };
+                var date = new Date(response["chain"][i]["timestamp"] * 1000);
+                var formattedDateTime = date.toLocaleTimeString("en-us", options);
+                //document.write('i=',i)   
+         /*  if (response["chain"].length==2)
+               
+              {
+                 for (j = 0; j < response["chain"][i]["transactions"].length; j++) {
+                  transaction = [count,
+                              555,
+                              555,
+                              555, 
+                              555,
+                              555,
+                              555,
+                              555, 
+                              //888, 
+                              
+                              formattedDateTime,
+                              //i, 
+                              //response.length, 
+                              555;
+                  transactions.push(transaction);
+                  count += 1;
+                 };     
+               };  
+           */     
+           for (i =1; i <=(response["chain"].length-1); i++) {
+            /*   if (response["chain"].length-2==0)
+              {
+                  transactions=[1,2,3]
+                   transactions.push(transaction);
+             };  
+                
+            */      
+                
               for (j = 0; j < response["chain"][i]["transactions"].length; j++) {
 
                 //format date 
                 var options = {  year: "numeric", month: "short",  day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"  };
                 var date = new Date(response["chain"][i]["timestamp"] * 1000);
                 var formattedDateTime = date.toLocaleTimeString("en-us", options);
-
+               
+                //document.write('i=',i)
                 transaction = [count,
-                              response["chain"][i]["transactions"][j]["recipient_address"],
                               response["chain"][i]["transactions"][j]["sender_address"],
+                              response["chain"][i]["transactions"][j]["recipient_address"],
                               response["chain"][i]["transactions"][j]["value_voltage"], 
                               response["chain"][i]["transactions"][j]["value_current"],
                               response["chain"][i]["transactions"][j]["value_power"],
+                              response["chain"][i]["transactions"][j]["value_energy"],
+                              response["chain"][i]["transactions"][j]["value_transaction_energy"], 
                               response["chain"][i]["transactions"][j]["value_datatime"],
                               
+                              
+                              //888, 
+                              
                               formattedDateTime,
+                              //i, 
+                              //response.length, 
                               response["chain"][i]["block_number"]];
                 transactions.push(transaction);
 
                 count += 1;
+                //i += 1;
               };
             };
-
-            // Restrict a column to 10 characters, do split words
+           
+            
+          
+             // Restrict a column to 10 characters, do split words
+              
               $('#transactions_table').dataTable( {
                 data: transactions,
                 columns: [{ title: "#" },
-                          { title: "Recipient Address"},
-                          { title: "Sender Address"},
+                          { title: "User"},
+                          { title: "Receiver"},
                           { title: "Voltage"},
                           { title: "Current"},
                           { title: "Power"},
+                          { title: "Energy"},
                           { title: "Datatime"},
+                          { title: "Tran_energy"},
                           { title: "Timestamp"},
                           { title: "Block"}],
                 columnDefs: [ {targets: [1,2,3,4,5], render: $.fn.dataTable.render.ellipsis( 25 )}]
@@ -203,7 +272,10 @@
             console.log(error);
           }
         });
-
+   
+              
+              
+              
 
         $("#mine_button").click(function () {
 

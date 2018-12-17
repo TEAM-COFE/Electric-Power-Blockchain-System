@@ -42,9 +42,12 @@ from flask_cors import CORS
 #MINING_SENDER = "THE BLOCKCHAIN"
 MINING_SENDER = "The same"
 MINING_REWARD = 1
+#MINING_DIFFICULTY = 2
 MINING_DIFFICULTY = 2
+#IP_self='127.0.0.1'
+#port_self=5000
 IP_self='127.0.0.1'
-port_self=5000
+port_self=2000
 #transactions_empty=0
 
 class Blockchain:
@@ -57,7 +60,9 @@ class Blockchain:
         #Generate random number to be used as node_id
         self.node_id = str(uuid4()).replace('-', '')
         #Create genesis block
-        self.create_block(0, '00')
+        #self.create_block(0, '00')
+        #self.create_block(0)
+        self.create_block()
 
 
     def register_node(self, node_url):
@@ -82,12 +87,14 @@ class Blockchain:
         """
         #public_key = RSA.importKey(binascii.unhexlify(sender_address))
         public_key = RSA.importKey(binascii.unhexlify(value_public_key_to_master))
+        #public_key = value_public_key_to_master
+        print('\n\n @@@@@ verify_transaction_signature :::  public_key  = ', public_key)
         verifier = PKCS1_v1_5.new(public_key)
         h = SHA.new(str(transaction).encode('utf8'))
         return verifier.verify(h, binascii.unhexlify(signature))
 
 
-    def submit_transaction(self, sender_address, recipient_address, value_voltage, value_current,     value_power,value_datatime,value_public_key_to_master,signature):
+    def submit_transaction(self, sender_address, recipient_address, value_voltage, value_current,     value_power,value_energy,value_datatime,value_transaction_energy,value_public_key_to_master,signature):
         """
         Add a transaction to transactions array if the signature verified
         """
@@ -96,7 +103,9 @@ class Blockchain:
                                     'value_voltage': value_voltage,
                                     'value_current': value_current,
                                     'value_power': value_power,
-                                    'value_datatime': value_datatime,
+                                    'value_energy':value_energy,
+                                    'value_datatime':value_datatime,                                   
+                                    'value_transaction_energy':value_transaction_energy,
                                     'value_public_key_to_master': value_public_key_to_master})   
 
         print('\n\n @@@@ transaction = ')
@@ -121,7 +130,9 @@ class Blockchain:
                 return False
 
 
-    def create_block(self, nonce, previous_hash):
+    #def create_block(self, nonce,   previous_hash):
+    #def create_block(self, nonce):
+    def create_block(self):
         """
         Add a block of transactions to the blockchain
         """
@@ -138,9 +149,38 @@ class Blockchain:
         self.chain.append(block)
        
         """
-        
+        global previous_hash
         print('\n\n     ####       self.transactions= ',self.transactions)
-        if (self.transactions!=[]):
+        if (self.transactions==[]):
+            print('\n\n !!!  else: !!!  ')
+            #block_now=
+            # hash=hash(self, block)
+            previous_hash=0
+            #previous_has="8fb156e516b52afffb5860b5e3a076b0513c0d2d4489a9c4675c98e7e4a48a0d"
+            #current_hash = hash(str(previous_hash) )
+            nonce=0
+            current_hash = "8fb156e516b52afffb5860b5e3a076b0513c0d2d4489a9c4675c98e7e4a48a0d"
+            ##current_hash_a = proof_of_work()
+            #current_hash = current_hash_a[0]
+            block = {'block_number': len(self.chain) + 1,
+                     'timestamp': time(),
+                     'transactions':'999',
+                     'nonce': nonce,
+                     'previous_hash':previous_hash,
+                     'hash':current_hash}
+            #self.transactions = []
+            previous_hash=current_hash
+            
+            if len(self.chain)==0 :
+                transactions_empty=1
+                print('\n\n !!! if len(self.chain)==0 :  transactions_empty=',transactions_empty)
+                self.chain.append(block)
+                print('self.chain.remove(block)==',block)
+                print('len(self.chain)==',len(self.chain))
+                #print('transactions_empty===',transactions_empty)
+            return block
+
+        else: 
             print('\n\n ####       if (self.transactions!=[]):= ')
             #transactions_empty=0
             #temp=transactions_empty
@@ -152,24 +192,34 @@ class Blockchain:
             #print('n\n !!! iself.chain[0] :',self.chain[0])
             #print('n\n !!! iself.chain[0] :',value(self.chain[0].['transactions']))
             #if (len(self.chain)== 1 and  self.chain[0].['transactions']== '999'):
-            if (len(self.chain)== 1 and chain_0['transactions']=='999'):   
+            #if (len(self.chain)== 1 and chain_0['transactions']=='999'):   
                 #transactions_empty=transactions_empty+1
-                print('\n\n !!! if (len(self.chain)== 1 and  transactions_empty== 0):')
-                print('\n\n !!! self.chain)',self.chain)
-                print('\n\n !!! type self.chain',type(self.chain))
-                print('c !!! type self.chain[0]',type(self.chain[0]))
+            #    print('\n\n !!! if (len(self.chain)== 1 and  transactions_empty== 0):')
+             ##   print('\n\n !!! type self.chain',type(self.chain))
+              #  print('c !!! type self.chain[0]',type(self.chain[0]))
                 # chain_0= self.chain[0]
                 ##print('\n\n !!! type chain_0',type(chain_0))
                 #self.chain.remove(self.chain[0])
-                self.chain.remove(self.chain[0])
-                print('\n\n@@@@  After self.chain.remove(block)==',self.chain)
-                print('len(self.chain)==',len(self.chain))
+                
+                #self.chain.remove(self.chain[0])
+                #if len(self.chain)==0 : 
+            current_hash= self.proof_of_work()
+            #previous_hash=hash(str(0) )
+            #current_hash = hash(str(previous_hash)+str(nonce)+str(self.transactions))
+            current_hash_a= self.proof_of_work()
+            #current_hash_a = proof_of_work()
+            nonce = current_hash_a[0]
+            current_hash = current_hash_a[1]
+            
+            print('\n\n@@@@  After self.chain.remove(block)==',self.chain)
+            print('len(self.chain)==',len(self.chain))
             block = {'block_number': len(self.chain) + 1,
-                     'timestamp': time(),
-                     'transactions': self.transactions,
-                     'nonce': nonce,
-                     'previous_hash': previous_hash}
-
+                         'timestamp': time(),
+                         'transactions': self.transactions,
+                         'nonce': nonce,
+                         'previous_hash': previous_hash,
+                         'hash': current_hash}
+            previous_hash=current_hash
             # Reset the current list of transactions
             
             self.transactions = []
@@ -177,57 +227,46 @@ class Blockchain:
             print('\n\n **********8  After  self.chain.append(block)==',self.chain)
             print('len(self.chain)==',len(self.chain))
             return block
-        else:
-            print('\n\n !!!  else: !!!  ')
-            block = {'block_number': len(self.chain) + 1,
-                     'timestamp': time(),
-                     'transactions':'999',
-                     'nonce': nonce,
-                     'previous_hash': previous_hash}
-            #self.transactions = []
-            
-            if len(self.chain)==0 :
-                transactions_empty=1
-                print('\n\n !!! if len(self.chain)==0 :  transactions_empty=',transactions_empty)
-                self.chain.append(block)
-                print('self.chain.remove(block)==',block)
-                print('len(self.chain)==',len(self.chain))
-                #print('transactions_empty===',transactions_empty)
-            return block
-
+        
 
     def hash(self, block):
         """
         Create a SHA-256 hash of a block
         """
         # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
-        block_string = json.dumps(block, sort_keys=True).encode()
-        
+        #block_string = json.dumps(block, sort_keys=True).encode()
+        #block_string = block.encode()
+        block_string = json.dumps(block).encode()
         return hashlib.sha256(block_string).hexdigest()
+        #return hashlib.sha1(block_string).hexdigest()
 
-
+          
     def proof_of_work(self):
         """
         Proof of work algorithm
         """
+        global now_hash
         last_block = self.chain[-1]
         last_hash = self.hash(last_block)
 
         nonce = 0
-        while self.valid_proof(self.transactions, last_hash, nonce) is False:
+        while self.valid_proof(self.transactions, last_hash, nonce)[1] is False:
             nonce += 1
+            now_hash = guess_hash
 
-        return nonce
-
+        #return nonce
+        return nonce,now_hash
 
     def valid_proof(self, transactions, last_hash, nonce, difficulty=MINING_DIFFICULTY):
         """
         Check if a hash value satisfies the mining conditions. This function is used within the proof_of_work function.
         """
+        global guess
+        global guess_hash
         guess = (str(transactions)+str(last_hash)+str(nonce)).encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:difficulty] == '0'*difficulty
-
+        #return guess_hash[:difficulty] == '0'*difficulty
+        return guess_hash ,guess_hash[:difficulty] == '0'*difficulty
 
     def valid_chain(self, chain):
         """
@@ -250,7 +289,7 @@ class Blockchain:
             transactions = block['transactions'][:-1]
             # Need to make sure that the dictionary is ordered. Otherwise we'll get a different hash
             #transaction_elements = ['sender_address', 'recipient_address', 'value']
-            transaction_elements = ['sender_address', 'recipient_address', 'value_voltage','value_current','value_power','value_datatime']
+            transaction_elements = ['sender_address', 'recipient_address', 'value_voltage','value_current','value_power','value_energy','value_datatime','value_transaction_energy']
             transactions = [OrderedDict((k, transaction[k]) for k in transaction_elements) for transaction in transactions]
 
             if not self.valid_proof(transactions, block['previous_hash'], block['nonce'], MINING_DIFFICULTY):
@@ -319,7 +358,7 @@ def new_transaction():
     print('\n\n values = ',values )
     print('\n\n -------------  values = ' )
    #print('\n\n values amount_4=',values['amount_3'])
-    required = ['sender_address', 'recipient_address', 'amount_voltage', 'amount_current', 'amount_power','amount_datatime','public_key_to_master', 'signature']
+    required = ['sender_address', 'recipient_address', 'amount_voltage', 'amount_current', 'amount_power','amount_energy','amount_datatime','amount_transaction_energy','public_key_to_master', 'signature']
     
     print('\n\n required  = ',required  )
     if not all(k in values for k in required):
@@ -327,7 +366,7 @@ def new_transaction():
         return 'Missing values', 400
     # Create a new Transaction
     
-    transaction_result = blockchain.submit_transaction(values['sender_address'], values['recipient_address'], values['amount_voltage'], values['amount_current'],values['amount_power'],values['amount_datatime'],values['public_key_to_master'],values['signature'])
+    transaction_result = blockchain.submit_transaction(values['sender_address'], values['recipient_address'], values['amount_voltage'], values['amount_current'],values['amount_power'],values['amount_energy'],values['amount_datatime'],values['amount_transaction_energy'],values['public_key_to_master'],values['signature'])
     #
     print('\n\ntransaction_result==')
     #print('\n\ntransaction_result :::values['amount_4']=='values['amount_4'])
@@ -359,8 +398,8 @@ def full_chain():
 def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.chain[-1]
-    nonce = blockchain.proof_of_work()
-
+    #nonce = blockchain.proof_of_work()
+    #nonce = blockchain.proof_of_work()[0]
     # We must receive a reward for finding the proof.
     """
     blockchain.submit_transaction(sender_address=MINING_SENDER, recipient_address=blockchain.node_id, value=MINING_REWARD, value_current=MINING_REWARD, value_power=MINING_REWARD, value_datatime=MINING_REWARD, value_d="", signature="")
@@ -372,8 +411,16 @@ def mine():
     print('\n\n  def mine(): recipient_address==')
     print('\n\n  def mine():recipient_address==',blockchain.node_id)
     # Forge the new Block by adding it to the chain
-    previous_hash = blockchain.hash(last_block)
-    block = blockchain.create_block(nonce, previous_hash)
+    #previous_hash = blockchain.hash(last_block)
+    
+    #previous_hash =last_block['previous_hash']
+    #previous_hash=  block['current_hash']
+    #print('\n\n  def mine() previous_hash=',previous_hash)
+    #current_hash = blockchain.hash(str(previous_hash) )
+    # print('\n\n  def mine() current_hash=',current_hash)
+    #block = blockchain.create_block(nonce, previous_hash)
+    #block = blockchain.create_block(nonce)
+    block = blockchain.create_block()
     print('\n\n  def mine()   block  ==',block)  
     print('\n\n  def mine()   block_number  ==',block['block_number'])
     print('\n\n  def mine()   transactions  ==', block['transactions'])
@@ -383,6 +430,7 @@ def mine():
         'transactions': block['transactions'],
         'nonce': block['nonce'],
         'previous_hash': block['previous_hash'],
+        'hash': block['hash'],
     }
     return jsonify(response), 200
 
