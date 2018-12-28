@@ -28,6 +28,9 @@ from Crypto.Signature import PKCS1_v1_5
 import requests
 from flask import Flask, jsonify, request, render_template
 
+from flask import render_template
+
+
 IP_self='127.0.0.1'
 port_self=1000
 #global public_key
@@ -42,9 +45,9 @@ class Transaction:
         self.value_current= value_current
         self.value_power= value_power
         self.value_energy= value_energy
-        self.value_datatime= value_datatime
         self.value_transaction_energy= value_transaction_energy
-                
+        self.value_datatime= value_datatime
+                        
         self.value_public_key_to_master= value_public_key_to_master
         print('\n\n class  ############=')
         print('\n\n class  value_voltage=', value_voltage)
@@ -267,10 +270,13 @@ def generate_transaction():
     print('\n\n value=',value_voltage)
     print('\n\n value_current=',value_current)
     print('\n\n value_power=',value_power)
-    print('\n\n value_datatime=',value_datatime)
+    print('\n\n   value_datatime=',value_datatime)
+    print('\n\n   value_transaction_energy=',value_transaction_energy)
+   # print('\n\n  transaction.value_public_key_to_master ===',transaction.value_public_key_to_master)
+    
     print('\n\n value_public_key_to_master=',value_public_key_to_master)
     print('\n')
-    transaction = Transaction(sender_address, sender_private_key, recipient_address,  value_voltage, value_current,value_power,value_energy,value_datatime,value_transaction_energy,value_public_key_to_master)
+    transaction = Transaction(sender_address, sender_private_key, recipient_address,  value_voltage, value_current,value_power,value_energy,value_transaction_energy,value_datatime,value_public_key_to_master)
     print('\nbbbb')
     #print('\n\n transaction.value_2 ===',transaction.value_2)
     print('\n')
@@ -285,7 +291,7 @@ def generate_transaction():
     print('\nccc')
     print('\n\n transaction.value_current ===',transaction.value_current)
     print('\n\n transaction.value_power ===',transaction.value_power)
-    print('\n\n transaction.value_public_key_to_master ===',transaction.value_public_key_to_master)
+    
     print('\n')
     print('\n')
     
@@ -294,6 +300,7 @@ def generate_transaction():
     print('\n')
     print('\nddd')
     response = {'transaction': transaction.to_dict(), 'signature': transaction.sign_transaction()}
+    """
     print('\n')
     print('\nfff')
     print('\n\n type (transaction) =',type(transaction))
@@ -302,24 +309,17 @@ def generate_transaction():
     print('\n\n transaction.value_public_key_to_master ===',transaction.value_public_key_to_master)
     print('\n')
     print('\n')
-    
+    """
+    print('\n\n ###   value_datatime=',value_datatime)
+    print('\n\n ###   value_transaction_energy=',value_transaction_energy)
+    print('\n\n ### transaction.value_public_key_to_master ===',transaction.value_public_key_to_master)
     #print('\n\n response ===',response)
     #print('\n')
     return jsonify(response), 200
 
 
 
-@app.route('/Mysql_user_data', methods=['GET'])
-def Mysql_user_data():
-    print('\n\n Mysql_user_data  ')
-    data=['aaa','bbbb',110,1,2,3,4,5,'yy-mm-dd']
-    mysql_data=data.append(data)   
-    data=['cc','ddd',220,1,2,3,4,10,'yy-mm-dd']
-    mysql_data=data.append(data)       
-    print('\n\n mysql_user_data===',mysql_data)
-    response = {'mysql_user_data':mysql_data}
-	    
-    return jsonify(response), 200
+
 
 
 
@@ -335,6 +335,114 @@ def Write_Private_key():
 		       
     return jsonify(response), 200
 
+
+@app.route('/transactions/new', methods=['POST'])
+def new_transaction():
+    print('\n\n Mysql_user_data /transactions/new ')
+    data=['aaa','2',3,4,5,6,7,8]
+    
+    #transactions = data
+    transactions.append(data)
+    #print('\n\n Mysql_user_data /get_transactions ',transactions)
+    #data=['a','b',3,4,5,6,7,8,9]
+    #transactions.append(data)
+    #print('\n\n Mysql_user_data /get_transactions ',transactions)
+    transactions = OrderedDict({
+                                    'recipient_address': data[0],
+                                    'value_voltage': data[1],
+                                    'value_current': data[2],
+                                    'value_power': data[3],
+                                    'value_energy':data[4],
+                                    'value_transaction_energy':data[5],                                   
+                                    'value_datatime':data[6],
+                                    })
+    response = {'message': 'Transaction will be added to Block '+ str(transactions)}
+    return jsonify(response), 201
+
+@app.route('/Mysql_user_data', methods=['GET'])  
+def Mysql_user_data():
+    transactions_aa=[]
+    #Get transactions from transactions pool
+    print('\n\n Mysql_user_data /get_transactions ')
+    #data=['test','2',3,4,5,6,7,8,9]
+    
+    #data_1=['aa','2',3,4,5,6,7,8,9]
+    #data=['Wang','Hsieh',  111.2, 3.2, 55.4, 0.1360, '2018/12/12 09:12:22']
+   # data_total=[data_1,data_2,data_3]
+    #data_2=['bbb','2',3,4,5,6,7,8,9]
+    #data_3=['cccc','2',3,4,5,6,7,8,9]
+    #data_total=[data_1,data_2,data_3]
+    #transactions = data
+    #transactions_aa.append(data)
+    #print('\n\n Mysql_user_data /get_transactions ====',transactions_aa)
+    #data=['a','b',3,4,5,6,7,8,9]
+    #transactions.append(data)
+    #print('\n\n Mysql_user_data /get_transactions ',transactions)   response['transactions'][i]["sender_address"],
+    """ 
+    
+    """
+    #transactions_total.transactions.append(transactions_aa)
+    
+    """ 
+    
+    """ 
+    #print('\n\n @@@@    Mysql_user_data /get_transactions_aa  again   ====',transactions_aa)
+    #print('\n\n @@@@    Mysql_user_data /type(transactions_aa)   ====',type(transactions_aa))
+    #print('\n\n @@@@    Mysql_user_data /transactions_aa[0]  ====',transactions_aa[1])
+    #data=['a','b',3,4,5,6,7,8,9]
+    trans_b =[]
+    transactions_total=[]
+    """ 
+    
+    """  
+    trans_b=[]
+    transactions_aa= []
+    
+    transactions_total=[]
+    """
+    data_1=[1, 'Chen','Lee',    110.7, 2.5, 52.5, 4.7, '2018/12/12 08:53:11']
+    data_2=[2, 'Lin' ,'Huang',  112.3, 1.7, 29.1, 2.1, '2018/12/12 09:07:45']
+    data_3=[3, 'Wang','Hsieh',  111.2, 3.2, 55.4, 7.4, '2018/12/12 09:12:22']
+    data_4=[4, 'Yang','Wu',     109.1, 7.5, 100.5, 9.8, '2018/12/12 08:53:11']
+    data_5=[5, 'Hsu' ,'Guo',   108.8, 10.7, 301.1, 10.2, '2018/12/12 09:07:45']
+    """
+    data_1=[1, 'Admin','Chen',    110.7, 2.5, 52.5, 4.7, '2018/12/12 08:53:11']
+    data_2=[2, 'Lin' ,'Huang',  '', '', '', '', '2018/12/12 09:07:45']
+    data_3=[3, 'Admin','Chen',  111.2, 3.2, 55.4, 7.4, '2018/12/12 09:12:22']
+    data_4=[4, 'Admin','Yang',  '', '', '', '', '2018/12/12 08:53:11']
+    data_5=[5, 'Hsu' ,'Guo',   108.8, 10.7, 301.1, 10.2, '2018/12/12 09:07:45']
+    data_6=[6, 'Admin','Lin' ,  110.9, 12.7, 100.2, 22.3, '2018/12/7 14:13:35']
+    
+    data_total=[data_1,data_2,data_3,data_4,data_5,data_6]
+    
+    #transactions_aa= [3, 'Wang','Hsieh',  111.2, 3.2, 55.4, 0.1360, '2018/12/12 09:12:22']
+   
+    
+
+    for i in range(len(data_total))  :
+        #print('\n\n @@@@    i  ====',i )
+        for j in range(len(data_total[i])) :
+        #print('\n\n @@@@    (len(data_total[i])  ====',len(data_total[i]) )
+        #print('\n\n @@@@   j ====',j )
+        #print('\n\n @@@@   data_total[i][j] ====',data_total[i][j] )
+            trans_b.append(data_total[i][j])
+            #print('\n\n @@@@    trans_b ====',trans_b)   
+        transactions_total.append(trans_b)
+        trans_b=[]
+    print('\n\n @@@@    Mysql_user_data transactions_total   ====',transactions_total)
+   # transactions_total.append(trans_b)
+    #print('\n\n @@@@    Mysql_user_data transactions_total   ====',transactions_total)        
+    print('\n\n @@@@    Mysql_user_data transactions_total length(transactions_total)  ====',len(transactions_total))   
+    transactions_aa= [transactions_total[len(transactions_total)-1]]
+    print('\n\n @@@@    transactions_aa  ====', transactions_aa)        
+
+    response = {'transactions_aa':transactions_aa,'transactions_total':transactions_total}
+    return jsonify(response), 200
+    
+    
+    
+    
+    
 
 if __name__ == '__main__':
     from argparse import ArgumentParser

@@ -104,8 +104,9 @@ class Blockchain:
                                     'value_current': value_current,
                                     'value_power': value_power,
                                     'value_energy':value_energy,
-                                    'value_datatime':value_datatime,                                   
+                                    'value_datatime':value_datatime,                                
                                     'value_transaction_energy':value_transaction_energy,
+                                     
                                     'value_public_key_to_master': value_public_key_to_master})   
 
         print('\n\n @@@@ transaction = ')
@@ -347,6 +348,13 @@ def index():
 def configure():
     return render_template('./configure.html')
 
+@app.route('/diagram', methods=['GET'])
+def diagram():
+    #nodes = list(blockchain.nodes)
+    #response = {'nodes': nodes}
+    return render_template('./diagram.html')
+    #return jsonify(response), 200
+
 
 
 @app.route('/transactions/new', methods=['POST'])
@@ -478,6 +486,18 @@ def get_nodes():
     return jsonify(response), 200
 
 
+@app.route('/show_diagram', methods=['GET'])
+def get_diagram():
+    #nodes = list(blockchain.nodes)
+   # print('\n\n @@@ show_diagram', block['transactions'])
+    show_diagram_chain=blockchain.chain
+    print('\n\n @@@ show_diagram',show_diagram_chain)
+    transactions = show_diagram_chain[1]
+    print('\n\n @@@ show_diagram transactions::',transactions)
+    response = {'show_diagram_chain': show_diagram_chain,
+                #'transactions': transactions,
+               }
+    return jsonify(response), 200
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
@@ -486,7 +506,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', default=port_self, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
-
+    
     app.run(host=IP_self, port=port)
 
 

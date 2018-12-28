@@ -140,14 +140,14 @@
                 $('#transactions_table').dataTable( {
                   data: transactions,
                   columns: [{ title: "#" },
-                            { title: "Recipient Address"},
                             { title: "Sender Address"},
+                            { title: "Recipient Address"},
                             { title: "Voltage"},
                             { title: "Current"},
                             { title: "Power"},
                             { title: "Energy"},
-                            { title: "Datatime"},
                             { title: "Tran_energy"},
+                            { title: "Datatime"},
                             { title: "Timestamp"},
                             { title: "Block"}],
                   columnDefs: [ {targets: [1,2,3,4,5], render: $.fn.dataTable.render.ellipsis( 25 )}]

@@ -23,32 +23,73 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Blockchain Frontend</a>
+        <a class="navbar-brand" href="#">Blockchain Center</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/">Mine
+              <a class="nav-link" href="/">Mining
                 <span class="sr-only">(current)</span>
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/configure">Configure</a>
+              <a class="nav-link" href="/configure">Management</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/diagram">Diagram</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <!--  -->
+      
+<hr>
+   <div class="col-lg-12 text-center">  
+     <div class="card-title"> <font size="8" color="blue">Wellcome to the Mining place </font></div> 
+       <div class="card-title"><b><font size="6" >Bless you successful !</font> </b></div> 
+   </div>       
+      
+      
+<div class="container"> 
+     <div class="alert alert-success alert-dismissible" role="alert">
+	    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+        <font size="5" ><a href="#" class="alert-link"><strong>Step 1 :</strong></a>Reveive transmission data or transaction data from mining pool.</font>
+      </div>
+	  
+      <div class="alert alert-info alert-dismissible" role="alert">
+	    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+       <font size="5" > <a href="#" class="alert-link"><strong>Step 2 :</strong></a>Proof Signature.</font>
+      </div>
+	  
+      <div class="alert alert-warning alert-dismissible" role="alert">
+	    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+       <font size="5" > <a href="#" class="alert-link"><strong>Step 3 :</strong></a>Mine transmission data or transaction data.</font>
+      </div>
+      
+     <div class="alert alert-danger alert-dismissible" role="alert">
+	    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+       <font size="5" > <a href="#" class="alert-link"><strong>Step 4 :</strong></a>Generat blockcahin!</font> 
+     </div>
+     <div class="alert alert-secondary alert-dismissible" role="alert">
+	    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+      <font size="5" >  <a href="#" class="alert-link"><strong>Step 5 :</strong></a>Blockcahin management!</font> 
+     </div>
+    
+   </div>   
+<hr>   
+<br>  
+      
+      
+<!--  -->
     <div class="container">
 
       <div class="row">
         <div class="col-lg-12">
           <div class="card-body">
-            <h4 class="card-title">Transactions to be added to the next block &nbsp;&nbsp;&nbsp;
+            <h4 class="card-title">The next block Data  &nbsp;&nbsp;&nbsp;
               <button type="submit" id="refresh_transactions" class="btn btn-sq-xs btn-primary">
                 <i class="fa fa-refresh"></i>
               </button>
@@ -77,7 +118,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="card-body">
-            <h4 class="card-title">Transactions on the Blockchain &nbsp;&nbsp;&nbsp;
+            <h4 class="card-title"> The Blockchain Datas &nbsp;&nbsp;&nbsp;
               <button type="submit" id="refresh_blockchain" class="btn btn-sq-xs btn-primary">
                 <i class="fa fa-refresh"></i>
               </button>
@@ -121,9 +162,10 @@
                               response['transactions'][i]["value_voltage"],
                               response['transactions'][i]["value_current"],
                               response['transactions'][i]["value_power"],
-                              response['transactions'][i]["value_energy"], 
+                              response['transactions'][i]["value_energy"],
+                              response['transactions'][i]["value_transaction_energy"],
                               response['transactions'][i]["value_datatime"],
-                              response['transactions'][i]["value_transaction_energy"]];
+                              ];
 
                   transactions.push(transaction);
 
@@ -260,8 +302,8 @@
                           { title: "Current"},
                           { title: "Power"},
                           { title: "Energy"},
-                          { title: "Datatime"},
                           { title: "Tran_energy"},
+                          { title: "Datatime"},
                           { title: "Timestamp"},
                           { title: "Block"}],
                 columnDefs: [ {targets: [1,2,3,4,5], render: $.fn.dataTable.render.ellipsis( 25 )}]

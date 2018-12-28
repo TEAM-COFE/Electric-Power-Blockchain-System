@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A live blockchain demo in a browser.">
+<meta name="author" content="Anders Brownworth">
+    
+<link rel="icon" href="/favicon.ico">
+<title>Blockchain Demo</title>
+<link rel="stylesheet" href="/static/vendor/bootstrap/js/bootstrap.min.css"><link rel="stylesheet" href="/static/vendor/bootstrap/js/bootstrap-theme.min.css">
+<link rel="stylesheet" href="/static/vendor/bootstrap/js/bootstrap-horizon.css"><link rel="stylesheet" href="/static/vendor/bootstrap/js/ladda-themeless.min.css">
+<link rel="stylesheet" href="/static/vendor/bootstrap/js/ie10-viewport-bug-workaround.css">
+<link rel="stylesheet" href="/static/vendor/blockchain.css">
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/jquery/bootstrap.min.js"></script>
+<script src="/static/vendor/jquery/spin.min.js"></script>
+<script src="/static/vendor/jquery/ladda.min.js"></script>
+<script src="/static/vendor/jquery/ie10-viewport-bug-workaround.js"></script>
+<script src="/static/vendor/jquery/sha256.js"></script>
+<script src="/static/vendor/blockchain.js"></script>
+ 
+    
+<link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/vendor/bootstrap/css/bootstrap-horizon.css" rel="stylesheet">
+<link href="/static/css/custom.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+<link href="/static/vendor/DataTables/css/datatables.min.css" rel="stylesheet">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--> 
+    <!--<link href="/static/css/custom.css" rel="stylesheet">-->    
+ 
+<link href="/static/vendor/bootstrap/css/bootstrap-horizon.min.css">  
+    
+    
+    <!-- Bootstrap core JavaScript -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/static/vendor/DataTables/js/datatables.min.js"></script>
+<script src="/static/vendor/DataTables/js/ellipsis.js"></script>    
+    
+    
+    
+    
+</head>
+  <body>
+   <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Blockchain Center</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Mining
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/configure">Management</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/diagram">Diagram</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+ <hr> 
+      
+      
+
+ 
+   <div class="col-lg-12 text-center">  
+     <div class="card-title">  <b><font size="6" color="blue">Show the blockcahin </font></b></div> 
+       
+   </div> 
+
+ 
+
+     
+  <div class="container">
+       <div class="row justify-content-center"> 
+         <div class="form-inline">
+          <!--<div class="col-lg-12 text-center">-->
+          
+           
+           <div class="form-group">
+             <div class="col-sm-6"> 
+               <label for="amount_input_data" > <font size="5">Choose the block number: </font></label>
+             </div>
+              
+               <input type="number" name="amount_Choos_block" id="amount_Choos_block" rows="1" size="1" class="form-control" >
+             
+               
+               <div class="col-sm-2">
+                 <input type="button" id="button_Choos_block" class="btn btn-success btn-lg" value="Choos block">
+               </div>
+               
+            </div>
+        </div>
+      </div>
+    </div>
+      
+    
+<hr>         
+  <!-- ##### blockchain (START) --> 
+      
+  <!--  <div class="container-fluid"><h1>Blockchain</h1> --> 
+      
+  <!--   <div class="container">--> 
+     
+   <!--   <div class="row row-horizon">  --> 
+<!-- @@@@ chain_1 (START)  --> 
+      
+ <div class="container-fluid"> 
+ <div class="row flex-row flex-nowrap"> 
+ <div class="card-group">
+ <div class="row row-horizon">          
+  
+    <!-- ***** chain_1_block_1 (START) --> 
+
+<div class="col-lg-4 col-xs-6 col-offset-6 centered">    
+  <div class="container alert alert-info">
+ <!--   <div class="container alert alert-secondary">--> 
+      
+    <!-- total  -->
+        <div>
+          <div class="col-xs-6 text-center">
+             <div class=" alert alert-secondary">
+            <center>
+                <div><b><font size="3"> Master 1  </font> </b> </div>
+            </center>
+          </div>
+        </div>
+       </div>   
+        
+    <form id="transaction_form" >
+            
+     
+    <div class="container">  
+     
+       <div class="row">
+        <div class="col-sm-2"><label > <b><font size="3"> Block:  </font></b></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_1_Block" id="chain_1_block_1_Block" rows="1" style="font-weight:bold;" class="form-control">
+        </div> 
+
+        <div class="col-sm-2"><label><font size="3">Nonce: </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_1_Nonce" id="chain_1_block_1_Nonce" rows="1" class="form-control"></div>     
+        </div>   
+      
+      </div>             
+        
+   <div class="container">  
+     
+       <div class="row">
+        <div class="col-sm-2"><label ><font size="3"> User:  </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_1_sender" id="chain_1_block_1_sender" rows="1" class="form-control"></div>
+
+        <div class="col-sm-2"><label><font size="3">Rec: </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_1_recipient" id="chain_1_block_1_recipient" rows="1" class="form-control"></div>     
+        </div>   
+       
+   </div> 
+      
+        
+    <div class="container">
+     
+      <div class="row">
+        <div class="col-sm-2"><label > <font size="3"> V(V): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_1_voltage" id="chain_1_block_1_voltage" rows="1" class="form-control"></div>
+        <div class="col-sm-2"><label> <font size="3"> I(A): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_1_current" id="chain_1_block_1_current" rows="1" class="form-control"></div>  
+      </div>
+     
+    </div>           
+      
+    <div class="container">
+       
+      <div class="row">
+        <div class="col-sm-2"><label > <font size="3">P(W): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_1_power" id="chain_1_block_1_power" rows="1" class="form-control"></div>
+        <div class="col-sm-2"><label><b> <font size="3" >E.E: </font></b></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_1_energy" id="chain_1_block_1_energy" rows="1"  style="color:blue; font-weight:bold;" class="form-control"></div>  
+      </div>
+        
+    </div>    
+        
+        
+    <div class="container">
+     
+      <div class="row">
+        <div class="col-sm-2"><label > <b> <font size="3" >T.E.E: </font></b></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_1_tran_energy" id="chain_1_block_1_tran_energy" rows="1" style="color:red; font-weight:bold;" class="form-control"></div>
+        <div class="col-sm-2"><label> <font size="3">D.T.: </font></label></div>
+        <div class="col-sm-4"><input type="datetime-local" name="chain_1_block_1_datatime" id="chain_1_block_1_datatime" rows="1"  class="form-control"></div>  
+      </div>
+       </div>     
+
+<br>      
+     
+    <div class="container">
+      
+       
+        <div class="row">
+          <label class="col-sm-2"><font size="3">Pre_H: </font></label>
+          <div class="col-sm-10">
+            <input type="textarea" name="chain_1_block_1_pre_hash" id="chain_1_block_1_pre_hash" style="color:blue;" rows="2" class="form-control">
+          </div>
+         </div>
+    </div>
+     
+   
+    <div class="container">
+               
+        <div class="row">
+          <label class="col-sm-2"><font size="3">Hash: </font></label>
+          <div class="col-sm-10">
+            <input type="textarea" name="chain_1_block_1_hash" id="chain_1_block_1_hash"  style="color:red;" rows="2" class="form-control">
+          </div>
+         </div>
+    </div>
+        
+ <br>   
+        
+      <!-- Modal  <div class="row">  -->
+        <div>
+          <div class="col-xs-6 text-center">
+           <div>
+            <center>
+            <input type="button" id="chain_1_block_2_mine" class="btn btn-primary btn-xs" value="Mine">
+            </center>
+          </div>
+        </div>
+       </div> 
+           
+         
+    </form>
+    </div>
+ </div>
+
+ <!-- ***** chain_1_block_1 (END) --> 
+    
+<!-- ***** Space between block_1 and block_2 (START) --> 
+<div class="col-xs-1"> 
+</div>    
+<!-- ***** Space between block_1 and block_2 (END) -->     
+    
+    
+
+    
+    <!-- ***** chain_1_block_2 (START) --> 
+
+ <div class="col-lg-4 col-xs-6 col-offset-6 centered">    
+  <div class="container alert alert-info">
+ <!--   <div class="container alert alert-secondary">--> 
+      
+    <!-- total  -->
+        <div>
+          <div class="col-xs-6 text-center">
+             <div class=" alert alert-secondary">
+            <center>
+                <div><b><font size="3"> Master 1  </font> </b> </div>
+            </center>
+          </div>
+        </div>
+       </div>   
+        
+    <form id="transaction_form" >
+            
+     
+    <div class="container">  
+     
+       <div class="row">
+        <div class="col-sm-2"><label > <b><font size="3"> Block:  </font></b></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_2_Block" id="chain_1_block_2_Block" rows="1" style="font-weight:bold;" class="form-control">
+        </div> 
+
+        <div class="col-sm-2"><label><font size="3">Nonce: </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_2_Nonce" id="chain_1_block_2_Nonce" rows="1" class="form-control"></div>     
+        </div>   
+      
+      </div>             
+        
+   <div class="container">  
+     
+       <div class="row">
+        <div class="col-sm-2"><label ><font size="3"> User:  </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_2_sender" id="chain_1_block_2_sender" rows="1" class="form-control"></div>
+
+        <div class="col-sm-2"><label><font size="3">Rec: </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_2_recipient" id="chain_1_block_2_recipient" rows="1" class="form-control"></div>     
+        </div>   
+       
+   </div> 
+      
+        
+    <div class="container">
+     
+      <div class="row">
+        <div class="col-sm-2"><label > <font size="3"> V(V): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_2_voltage" id="chain_1_block_2_voltage" rows="1" class="form-control"></div>
+        <div class="col-sm-2"><label> <font size="3"> I(A): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_2_current" id="chain_1_block_2_current" rows="1" class="form-control"></div>  
+      </div>
+     
+    </div>           
+      
+    <div class="container">
+       
+      <div class="row">
+        <div class="col-sm-2"><label > <font size="3">P(W): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_2_power" id="chain_1_block_2_power" rows="1" class="form-control"></div>
+        <div class="col-sm-2"><label><b> <font size="3" >E.E: </font></b></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_2_energy" id="chain_1_block_2_energy" rows="1"  style="color:blue; font-weight:bold;" class="form-control"></div>  
+      </div>
+        
+    </div>    
+        
+        
+    <div class="container">
+     
+      <div class="row">
+        <div class="col-sm-2"><label > <b> <font size="3" >T.E.E: </font></b></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_2_tran_energy" id="chain_1_block_2_tran_energy" rows="1" style="color:red; font-weight:bold;" class="form-control"></div>
+        <div class="col-sm-2"><label> <font size="3">D.T.: </font></label></div>
+        <div class="col-sm-4"><input type="datetime-local" name="chain_1_block_2_datatime" id="chain_1_block_2_datatime" rows="1"  class="form-control"></div>  
+      </div>
+       </div>     
+
+<br>      
+     
+    <div class="container">
+      
+       
+        <div class="row">
+          <label class="col-sm-2"><font size="3">Pre_H: </font></label>
+          <div class="col-sm-10">
+            <input type="textarea" name="chain_1_block_2_pre_hash" id="chain_1_block_2_pre_hash" style="color:red;" rows="2" class="form-control">
+          </div>
+         </div>
+    </div>
+     
+   
+    <div class="container">
+               
+        <div class="row">
+          <label class="col-sm-2"><font size="3">Hash: </font></label>
+          <div class="col-sm-10">
+            <input type="textarea" name="chain_1_block_2_hash" id="chain_1_block_2_hash"  style="color:#00FF00;" rows="2" class="form-control">
+          </div>
+         </div>
+    </div>
+        
+ <br>   
+        
+      <!-- Modal  <div class="row">  -->
+        <div>
+          <div class="col-xs-6 text-center">
+           <div>
+            <center>
+            <input type="button" id="chain_1_block_2_mine" class="btn btn-primary btn-xs" value="Mine">
+            </center>
+          </div>
+        </div>
+       </div> 
+           
+         
+    </form>
+    </div>
+ </div>
+          
+<!-- ***** chain_1_block_2 (END) --> 
+    
+<!-- ***** chain_1 Space between block_1 and block_2 (START) --> 
+<div class="col-xs-1"> 
+</div>    
+<!-- ***** chain_1 Space between block_1 and block_2 (END) -->   
+    
+
+<!-- ***** chain_1_block_3 (START) --> 
+<div class="col-lg-4 col-xs-6 col-offset-6 centered">      
+  <div class="container alert alert-info">
+ <!--   <div class="container alert alert-secondary">--> 
+      
+    <!-- total  -->
+        <div>
+          <div class="col-xs-6 text-center">
+             <div class=" alert alert-secondary">
+            <center>
+                <div><b><font size="3"> Master 1  </font> </b> </div>
+            </center>
+          </div>
+        </div>
+       </div>   
+        
+    <form id="transaction_form" >
+            
+     
+    <div class="container">  
+     
+       <div class="row">
+        <div class="col-sm-2"><label > <b><font size="3"> Block:  </font></b></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_3_Block" id="chain_1_block_3_Block" rows="1" style="font-weight:bold;" class="form-control">
+        </div> 
+
+        <div class="col-sm-2"><label><font size="3">Nonce: </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_3_Nonce" id="chain_1_block_3_Nonce" rows="1" class="form-control"></div>     
+        </div>   
+      
+      </div>             
+        
+   <div class="container">  
+     
+       <div class="row">
+        <div class="col-sm-2"><label ><font size="3"> User:  </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_3_sender" id="chain_1_block_3_sender" rows="1" class="form-control"></div>
+
+        <div class="col-sm-2"><label><font size="3">Rec: </font></label></div>
+        <div class="col-sm-4"><input type="text" name="chain_1_block_3_recipient" id="chain_1_block_3_recipient" rows="1" class="form-control"></div>     
+        </div>   
+       
+   </div> 
+      
+        
+    <div class="container">
+     
+      <div class="row">
+        <div class="col-sm-2"><label > <font size="3"> V(V): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_3_voltage" id="chain_1_block_3_voltage" rows="1" class="form-control"></div>
+        <div class="col-sm-2"><label> <font size="3"> I(A): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_3_current" id="chain_1_block_3_current" rows="1" class="form-control"></div>  
+      </div>
+     
+    </div>           
+      
+    <div class="container">
+       
+      <div class="row">
+        <div class="col-sm-2"><label > <font size="3">P(W): </font></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_3_power" id="chain_1_block_3_power" rows="1" class="form-control"></div>
+        <div class="col-sm-2"><label><b> <font size="3" >E.E: </font></b></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_3_energy" id="chain_1_block_3_energy" rows="1"  style="color:blue; font-weight:bold;" class="form-control"></div>  
+      </div>
+        
+    </div>    
+        
+        
+    <div class="container">
+     
+      <div class="row">
+        <div class="col-sm-2"><label > <b> <font size="3" >T.E.E: </font></b></label></div>
+        <div class="col-sm-4"><input type="number" name="chain_1_block_3_tran_energy" id="chain_1_block_3_tran_energy" rows="1" style="color:red; font-weight:bold;" class="form-control"></div>
+        <div class="col-sm-2"><label> <font size="3">D.T.: </font></label></div>
+        <div class="col-sm-4"><input type="datetime-local" name="chain_1_block_3_datatime" id="chain_1_block_3_datatime" rows="1"  class="form-control"></div>  
+      </div>
+       </div>     
+
+<br>      
+     
+    <div class="container">
+      
+       
+        <div class="row">
+          <label class="col-sm-2"><font size="3">Pre_H: </font></label>
+          <div class="col-sm-10">
+            <input type="textarea" name="chain_1_block_3_pre_hash" id="chain_1_block_3_pre_hash" style="color:#00FF00;" rows="2" class="form-control">
+          </div>
+         </div>
+    </div>
+     
+   
+    <div class="container">
+               
+        <div class="row">
+          <label class="col-sm-2"><font size="3">Hash: </font></label>
+          <div class="col-sm-10">
+            <input type="textarea" name="chain_1_block_3_hash" id="chain_1_block_3_hash"  style="color:blue;" rows="2" class="form-control">
+          </div>
+         </div>
+    </div>
+        
+ <br>   
+        
+      <!-- Modal  <div class="row">  -->
+        <div>
+          <div class="col-xs-6 text-center">
+           <div>
+            <center>
+            <input type="button" id="chain_1_block_3_mine" class="btn btn-primary btn-xs" value="Mine">
+            </center>
+          </div>
+        </div>
+       </div> 
+           
+         
+    </form>
+    </div>
+  </div>
+ 
+<!-- ***** chain_1_block_3 (END) --> 
+
+</div>   
+</div>
+</div>      
+</div>       
+       
+<!-- @@@@ chain_1 (END) -->       
+     
+<!-- ***** chain_1 Space between block_2 and block_3 (START) --> 
+<div class="col-xs-1"> 
+</div> 
+    
+       
+
+<!-- ***** chain_1 Space between block_3 and block_3 (END) --> 
+  
+    
+
+     
+
+
+<!-- ##### blockchain (END) --> 
+      
+ <script>
+
+/*
+   $("#button_Choos_block").click(function(){
+      start_block=amount_Choos_block.value; 
+      
+     });  
+     
+*/     
+
+   $(function(){
+        
+          $.ajax({
+            url: '/show_diagram',
+            type: 'GET',
+            success: function(response){
+              
+              //document.getElementById("warning").style.display = "block";
+             
+            var chain_length=response["show_diagram_chain"].length; 
+             //j=1;+
+            //var chain_str="chain_1_block_"+1+"_hash";
+           // document.getElementById("chain_1_block_1_Block").value = response["show_diagram_chain"][1]["block_number"];   
+            // document.getElementById("chain_1_block_1_hash").value =12; 
+        
+        
+        //  chain_1  (START)    
+            for (j =1; j <=chain_length-1; j++) {
+             chain_str="chain_1_block_"+j+"_Block";
+             document.getElementById(chain_str).value =response["show_diagram_chain"][j]["block_number"];
+             chain_str="chain_1_block_"+j+"_Nonce";
+             document.getElementById(chain_str).value =response["show_diagram_chain"][j]["nonce"]; 
+             chain_str="chain_1_block_"+j+"_pre_hash";
+             document.getElementById(chain_str).value =response["show_diagram_chain"][j]["previous_hash"];
+             chain_str="chain_1_block_"+j+"_hash";
+             document.getElementById(chain_str).value =response["show_diagram_chain"][j]["hash"];
+            
+             chain_str="chain_1_block_"+j+"_sender";   
+             document.getElementById(chain_str).value = response["show_diagram_chain"][j]["transactions"][0]["sender_address"];  
+            
+             chain_str="chain_1_block_"+j+"_recipient"; 
+             document.getElementById(chain_str).value = 
+             response["show_diagram_chain"][j]["transactions"][0]["recipient_address"];
+            
+             chain_str="chain_1_block_"+j+"_voltage"; 
+             document.getElementById(chain_str).value = response["show_diagram_chain"][j]["transactions"][0]["value_voltage"]; 
+                
+             chain_str="chain_1_block_"+j+"_current"; 
+             document.getElementById(chain_str).value = 
+             response["show_diagram_chain"][j]["transactions"][0]["value_current"];   
+             
+             chain_str="chain_1_block_"+j+"_power"; 
+             document.getElementById(chain_str).value = 
+             response["show_diagram_chain"][j]["transactions"][0]["value_power"];  
+             
+             chain_str="chain_1_block_"+j+"_energy"; 
+             document.getElementById(chain_str).value = 
+             response["show_diagram_chain"][j]["transactions"][0]["value_energy"];
+                
+             chain_str="chain_1_block_"+j+"_tran_energy"; 
+             document.getElementById(chain_str).value = 
+             response["show_diagram_chain"][j]["transactions"][0]["value_transaction_energy"]; 
+                
+             chain_str="chain_1_block_"+j+"_datatime"; 
+             document.getElementById(chain_str).value = 
+             response["show_diagram_chain"][j]["transactions"][0]["value_datatime"];  
+                
+             }    
+         //  chain_1  (END)
+           
+                
+         
+          
+            },
+            error: function(error){
+              console.log(error);
+            }
+          });
+       
+      })
+
+      
+     
+     </script>
+      
+  </body>
+    
+</html>
